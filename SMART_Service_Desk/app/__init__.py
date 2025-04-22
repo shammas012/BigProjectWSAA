@@ -29,9 +29,12 @@ from .config import Config
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-    print("SQLALCHEMY_DATABASE_URI:", app.config.get('SQLALCHEMY_DATABASE_URI'))
+    # debug
+    #print("SQLALCHEMY_DATABASE_URI:", app.config.get('SQLALCHEMY_DATABASE_URI'))
     dbEngine.init_app(app)
+
+    #move the below routing later to a common routes file..
     @app.route('/')
     def index():
-        return "Smart SD is live!"
+        return "Smart Service Desk is live!"
     return app
