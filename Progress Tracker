@@ -1,0 +1,3 @@
+Create Folder structure
+Install python,flask and mysql in virtual env
+create flask app with debug enabled
