@@ -1,3 +1,4 @@
 Create Folder structure
 Install python,flask and mysql in virtual env
-create flask app with debug enabled
+create app folder, init.py etc for flask
+create flask app with debug enabled - run.py
