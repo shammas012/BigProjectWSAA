@@ -7,31 +7,23 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
-
-dbEngine = SQLAlchemy()
-
-# def create_app():
-#     app = Flask(__name__)
-
-#     app.config.from_pyfile(os.path.join(os.path.dirname(__file__), 'config.py'))
-
-#     print("Config file loaded:", app.config.get('SQLALCHEMY_DATABASE_URI'))
-
-#     print("SQLALCHEMY_DATABASE_URI:", app.config.get('SQLALCHEMY_DATABASE_URI'))
- 
-#     dbEngine.init_app(app)
-
-#     return app
-
-
+from flask_migrate import Migrate
 from .config import Config
+
+
+db = SQLAlchemy()
+migrate = Migrate() # Added to fix db init issues
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     # debug
     #print("SQLALCHEMY_DATABASE_URI:", app.config.get('SQLALCHEMY_DATABASE_URI'))
-    dbEngine.init_app(app)
+    db.init_app(app)
+    migrate.init_app(app, db)
+
+
+    from . import models
 
     #move the below routing later to a common routes file..
     @app.route('/')
