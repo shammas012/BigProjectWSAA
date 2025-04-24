@@ -22,6 +22,9 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
 
+    from app.routes.users import bp as bpUsers
+    app.register_blueprint(bpUsers)
+
 
     from . import models
 

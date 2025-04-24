@@ -10,12 +10,28 @@ class UserRole(db.Model):
     id = db.Column(db.String(100), primary_key = True, default = generateGuid)
     description = db.Column(db.String(100), unique=True)
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'description': self.description
+        }
+
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.String(100), primary_key = True, default = generateGuid)
     username = db.Column(db.String(100))
+    fullname = db.Column(db.String(100))
     email = db.Column(db.String(100), unique=True)
     roleid = db.Column(db.String(100), db.ForeignKey('user_roles.id'))
+
+    def serializeJson(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'fullname': self.fullname,
+            'email': self.email,
+            'roleid': self.roleid
+        }
 
 class Project(db.Model):
     __tablename__ = "projects"
@@ -63,10 +79,10 @@ class Ticket(db.Model):
 class TicketHistory(db.Model):
     __tablename__ = "ticket_history"
     id = db.Column(db.String(100), primary_key = True, default = generateGuid)
-    ticketKey = db.Column(db.Integer, db.ForeignKey('tickets.key'))
+    ticketKey = db.Column(db.String(100), db.ForeignKey('tickets.key'))
     fromStatus = db.Column(db.String(100))
     toStatus = db.Column(db.String(100))
-    changed_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+    changed_by = db.Column(db.String(100), db.ForeignKey('users.id'))
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
 

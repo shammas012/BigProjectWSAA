@@ -2,3 +2,20 @@ Create Folder structure
 Install python,flask and mysql in virtual env
 create app folder, init.py etc for flask
 create flask app with debug enabled - run.py
+models for phase 1 created, initialised the database and migration completed
+routes for user roles and users added.Below are the roles created in local with ids for future ref
+[
+    {
+        "description": "Admin",
+        "id": "9cb9aab6-824d-48b2-bfec-561e4f92ec21"
+    },
+    {
+        "description": "Agent",
+        "id": "ab126199-6b6f-428d-82ea-8d51e8e31d21"
+    },
+    {
+        "description": "Customer",
+        "id": "03c2cee8-a00a-41d3-a3e5-0ae0fd728f58"
+    }
+]
+
