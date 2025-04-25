@@ -12,44 +12,24 @@ from app.models import db, IssueType
 
 #########################User##############################
 
-bp = Blueprint('users', __name__, url_prefix='/api')
+bp = Blueprint('issue_types', __name__, url_prefix='/api')
 
 # decorator / attribute for /api/users GET
-@bp.route('/users', methods=['GET'])
-def getUserList():
-    users = User.query.all()
-    return jsonify([user.serializeJson() for user in users])
+@bp.route('/issuetypes', methods=['GET'])
+def getIssueTypeList():
+    issue_types = IssueType.query.all()
+    return jsonify([issuetype.serializeJson() for issuetype in issue_types])
 
-# decorator / attribute for /api/users POST
-@bp.route('/users', methods=['POST'])
-def create_user():
+
+# decorator / attribute for /api/issuetypes POST
+@bp.route('/issuetypes', methods=['POST'])
+def createIssueType():
     data = request.get_json()
-    user = User(
-        username=data['username'],
-        email=data['email'],
-        roleid=data['roleid']
+    issueType = IssueType(
+        description=data['description']
     )
-    db.session.add(user)
+    db.session.add(issueType)
     db.session.commit()
-    return jsonify(user.serializeJson()), 200
+    return jsonify(issueType.serializeJson()), 200
 
 
-#####################UserRoles######################################
-
-@bp.route('/roles', methods=['GET'])
-def getUserRoles():
-    roles = UserRole.query.all()
-    return jsonify([r.serialize() for r in roles])
-
-@bp.route('/roles', methods=['POST'])
-def createUserRole():
-    data = request.get_json()
-    role = UserRole(description=data['description'])
-    db.session.add(role)
-    db.session.commit()
-    return jsonify(role.serialize()), 201
-
-# sample request
-# {
-#   "description": "Customer"
-# }

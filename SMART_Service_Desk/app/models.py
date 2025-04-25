@@ -84,8 +84,3 @@ class TicketHistory(db.Model):
     toStatus = db.Column(db.String(100))
     changed_by = db.Column(db.String(100), db.ForeignKey('users.id'))
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-
-
-
-
-

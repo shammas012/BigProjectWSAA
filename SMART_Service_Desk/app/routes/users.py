@@ -22,7 +22,7 @@ def getUserList():
 
 # decorator / attribute for /api/users POST
 @bp.route('/users', methods=['POST'])
-def create_user():
+def createUser():
     data = request.get_json()
     user = User(
         username=data['username'],
