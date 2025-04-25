@@ -41,12 +41,15 @@ class Project(db.Model):
     createdBy = db.Column(db.String(100), db.ForeignKey('users.id'))
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     tickets = db.relationship('Ticket', backref='project')
+    lastTicketNumber = db.Column(db.Integer, default=0)  # counter added for the ticket key
+
     def serializeJson(self):
         return {
             'id': self.id,
             'name': self.name,
             'shortName': self.shortName,
             'createdBy': self.createdBy,
+            'lastTicketNumber': self.lastTicketNumber,
             'timestamp': self.timestamp
         }
 

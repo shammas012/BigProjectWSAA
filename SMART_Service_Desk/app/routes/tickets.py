@@ -7,31 +7,42 @@
 
 
 from flask import Blueprint, jsonify, request
-from app.models import db, Project
+from app.models import db, Ticket
 
 
 #########################ticket##############################
 
-bp = Blueprint('projects', __name__, url_prefix='/api')
+bp = Blueprint('tickets', __name__, url_prefix='/api')
 
 # decorator / attribute for /api/projects GET
-@bp.route('/projects', methods=['GET'])
-def getIssueTypeList():
-    projects = Project.query.all()
-    return jsonify([issuetype.serializeJson() for issuetype in projects])
+@bp.route('/tickets', methods=['GET'])
+def getTicketList():
+    tickets = Ticket.query.all()
+    return jsonify([ticket.serializeJson() for ticket in tickets])
 
 
 # decorator / attribute for /api/projects POST
-@bp.route('/projects', methods=['POST'])
-def createIssueType():
+@bp.route('/tickets', methods=['POST'])
+def createTicket():
     data = request.get_json()
-    project = Project(
-        name=data['name'],
-        shortName=data['shortName'],
-        createdBy=data['createdBy']
+
+    # Create the ticket
+    ticket = Ticket(
+        key=f"",# there should be a logic to generate the key sequentially,
+        summary=data['summary'],
+        description=data['description'],
+        createdBy=data['createdBy'],
+        assignedTo=data.get('assignedTo'),
+        issueTypeId=data['issueTypeId'],
+        statusId=data['statusId'],
+        projectId=data['projectId']
     )
-    db.session.add(project)
+
+    db.session.add(ticket)
     db.session.commit()
-    return jsonify(project.serializeJson()), 200
+    return jsonify(ticket.serializeJson()), 200
+
+
+
 
 
