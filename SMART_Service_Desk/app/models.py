@@ -41,11 +41,25 @@ class Project(db.Model):
     createdBy = db.Column(db.String(100), db.ForeignKey('users.id'))
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     tickets = db.relationship('Ticket', backref='project')
+    def serializeJson(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'shortName': self.shortName,
+            'createdBy': self.createdBy,
+            'timestamp': self.timestamp
+        }
+
 
 class IssueType(db.Model):
     __tablename__ = "issue_types"
     id = db.Column(db.String(100), primary_key = True, default = generateGuid)
     description = db.Column(db.String(100), unique=True)
+    def serializeJson(self):
+        return {
+            'id': self.id,
+            'description': self.description
+        }
 
 class WorkflowStatus(db.Model):
     __tablename__ = "workflow_statuses"

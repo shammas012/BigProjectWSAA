@@ -7,29 +7,29 @@
 
 
 from flask import Blueprint, jsonify, request
-from app.models import db, IssueType
+from app.models import db, Project
 
 
 #########################IssueType##############################
 
-bp = Blueprint('issue_types', __name__, url_prefix='/api')
+bp = Blueprint('projects', __name__, url_prefix='/api')
 
-# decorator / attribute for /api/issuetypes GET
-@bp.route('/issuetypes', methods=['GET'])
+# decorator / attribute for /api/projects GET
+@bp.route('/projects', methods=['GET'])
 def getIssueTypeList():
-    issue_types = IssueType.query.all()
-    return jsonify([issuetype.serializeJson() for issuetype in issue_types])
+    projects = Project.query.all()
+    return jsonify([issuetype.serializeJson() for issuetype in projects])
 
 
-# decorator / attribute for /api/issuetypes POST
-@bp.route('/issuetypes', methods=['POST'])
+# decorator / attribute for /api/projects POST
+@bp.route('/projects', methods=['POST'])
 def createIssueType():
     data = request.get_json()
-    issueType = IssueType(
+    project = Project(
         description=data['description']
     )
-    db.session.add(issueType)
+    db.session.add(project)
     db.session.commit()
-    return jsonify(issueType.serializeJson()), 200
+    return jsonify(project.serializeJson()), 200
 
 
