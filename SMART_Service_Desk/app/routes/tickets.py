@@ -7,7 +7,7 @@
 
 
 from flask import Blueprint, jsonify, request
-from app.models import db, Ticket
+from app.models import db, Ticket, Project
 
 
 #########################ticket##############################
@@ -26,9 +26,16 @@ def getTicketList():
 def createTicket():
     data = request.get_json()
 
+    project = Project.query.get(data['projectId'])
+    if not project:
+        return jsonify({"error": "Project dont exist in Smart SD"}), 400
+
+    # Increment ticket number safely
+    newTicketNumber = project.lastTicketNumber + 1
+
     # Create the ticket
     ticket = Ticket(
-        key=f"",# there should be a logic to generate the key sequentially,
+        key=f"{project.shortName}-{newTicketNumber}",
         summary=data['summary'],
         description=data['description'],
         createdBy=data['createdBy'],
@@ -37,8 +44,9 @@ def createTicket():
         statusId=data['statusId'],
         projectId=data['projectId']
     )
-
+    project.lastTicketNumber = newTicketNumber
     db.session.add(ticket)
+    db.session.add(project)
     db.session.commit()
     return jsonify(ticket.serializeJson()), 200
 
