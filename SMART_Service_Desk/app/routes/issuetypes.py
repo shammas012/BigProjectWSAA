@@ -30,6 +30,9 @@ def createIssueType():
     )
     db.session.add(issueType)
     db.session.commit()
-    return jsonify(issueType.serializeJson()), 200
+    return jsonify(issueType.serializeJson()), 201
 
 
+# {
+#   "description": "Incident"
+# }

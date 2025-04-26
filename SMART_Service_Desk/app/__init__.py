@@ -25,6 +25,18 @@ def create_app():
     from app.routes.users import bp as bpUsers
     app.register_blueprint(bpUsers)
 
+    from app.routes.issuetypes import bp as bpIssueTypes
+    app.register_blueprint(bpIssueTypes)
+
+    from app.routes.project import bp as bpProjects
+    app.register_blueprint(bpProjects)
+
+    from app.routes.tickets import bp as bpTickets
+    app.register_blueprint(bpTickets)
+
+    from app.routes.workflows import bp as bpWorkflows
+    app.register_blueprint(bpWorkflows)
+
 
     from . import models
 

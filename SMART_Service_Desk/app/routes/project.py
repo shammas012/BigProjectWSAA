@@ -32,6 +32,6 @@ def createIssueType():
     )
     db.session.add(project)
     db.session.commit()
-    return jsonify(project.serializeJson()), 200
+    return jsonify(project.serializeJson()), 201
 
 

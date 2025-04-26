@@ -14,14 +14,14 @@ from app.models import db, Ticket, Project
 
 bp = Blueprint('tickets', __name__, url_prefix='/api')
 
-# decorator / attribute for /api/projects GET
+# decorator / attribute for /api/tickets GET
 @bp.route('/tickets', methods=['GET'])
 def getTicketList():
     tickets = Ticket.query.all()
     return jsonify([ticket.serializeJson() for ticket in tickets])
 
 
-# decorator / attribute for /api/projects POST
+# decorator / attribute for /api/tickets POST
 @bp.route('/tickets', methods=['POST'])
 def createTicket():
     data = request.get_json()
@@ -30,7 +30,7 @@ def createTicket():
     if not project:
         return jsonify({"error": "Project dont exist in Smart SD"}), 400
 
-    # Increment ticket number safely
+    # Increment ticket number sequentially
     newTicketNumber = project.lastTicketNumber + 1
 
     # Create the ticket
@@ -48,9 +48,18 @@ def createTicket():
     db.session.add(ticket)
     db.session.add(project)
     db.session.commit()
-    return jsonify(ticket.serializeJson()), 200
+    return jsonify(ticket.serializeJson()), 201
 
-
+# post crud body
+# {
+#   "summary": "Shammas unable to access smart DB database",
+#   "description": "Shammas unable to access smart DB database, credentials not working",
+#   "createdBy": "",
+#   "assignedTo": "",
+#   "issueTypeId": "",
+#   "statusId": "",
+#   "projectId": ""
+# }
 
 
 

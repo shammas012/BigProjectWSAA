@@ -70,6 +70,14 @@ class WorkflowStatus(db.Model):
     description = db.Column(db.String(100), unique=True)
     is_terminal = db.Column(db.Boolean, default=False)
     is_default = db.Column(db.Boolean, default=False)
+    def serializeJson(self):
+        return {
+            'id': self.id,
+            'description': self.description,
+            'is_default': self.is_default,
+            'is_terminal': self.is_terminal
+        }
+
 
 
 class WorkflowTransition(db.Model):
@@ -77,6 +85,12 @@ class WorkflowTransition(db.Model):
     id = db.Column(db.String(100), primary_key = True, default = generateGuid)
     fromStatus = db.Column(db.String(100), db.ForeignKey('workflow_statuses.id'))
     toStatus = db.Column(db.String(100), db.ForeignKey('workflow_statuses.id'))
+    def serializeJson(self):
+        return {
+            'id': self.id,
+            'fromStatus': self.fromStatus,
+            'toStatus': self.toStatus
+        }
 
 
 class Ticket(db.Model):

@@ -31,7 +31,7 @@ def createUser():
     )
     db.session.add(user)
     db.session.commit()
-    return jsonify(user.serializeJson()), 200
+    return jsonify(user.serializeJson()), 201
 
 
 #####################UserRoles######################################
