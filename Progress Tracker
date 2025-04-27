@@ -145,3 +145,7 @@ Press CTRL+C to quit
 127.0.0.1 - - [27/Apr/2025 13:03:53] "POST /api/statuses HTTP/1.1" 201 -
 127.0.0.1 - - [27/Apr/2025 13:04:15] "POST /api/statuses HTTP/1.1" 201 -
 127.0.0.1 - - [27/Apr/2025 13:04:40] "GET /api/statuses HTTP/1.1" 200 -
+
+Press CTRL+C to quit
+[2025-04-27 15:25:37,924] INFO in tickets: Created ticket ASD-2 in project Applications Service Desk
+127.0.0.1 - - [27/Apr/2025 15:25:37] "POST /api/tickets HTTP/1.1" 201 -

@@ -64,9 +64,10 @@ def createTicket():
         return jsonify(ticket.serializeJson()), 201
     
     except Exception as ex:
-        db.session.rollback()  # <<< 🔥 This is CRITICAL 🔥
+        db.session.rollback()  
         current_app.logger.error(f"Failed to create ticket: {str(ex)}")
         return jsonify({"error": "Failed to create ticket"}), 500
+    
 # post crud body
 # {
 #   "summary": "Shammas unable to access smart DB database",

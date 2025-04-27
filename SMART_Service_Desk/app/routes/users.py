@@ -5,6 +5,7 @@
 # https://realpython.com/flask-blueprint/
 # https://www.digitalocean.com/community/tutorials/how-to-structure-a-large-flask-application-with-flask-blueprints-and-flask-sqlalchemy
 # https://flask.palletsprojects.com/en/latest/logging/
+# https://docs.sqlalchemy.org/en/20/orm/session_basics.html
 
 
 from flask import Blueprint, jsonify, request, current_app
@@ -41,7 +42,7 @@ def createUser():
         return jsonify(user.serializeJson()), 201
     
     except Exception as ex:
-        db.session.rollback()  # <<< 🔥 This is CRITICAL 🔥
+        db.session.rollback()  
         current_app.logger.error(f"Failed to create user: {str(ex)}")
         return jsonify({"error": "Failed to create user"}), 500
 # {
@@ -63,12 +64,18 @@ def getUserRoles():
 @bp.route('/roles', methods=['POST'])
 @log_exceptions
 def createUserRole():
-    data = request.get_json()
-    role = UserRole(description=data['description'])
-    db.session.add(role)
-    db.session.commit()
-    return jsonify(role.serialize()), 201
-
+    try:
+        data = request.get_json()
+        role = UserRole(description=data['description'])
+        db.session.add(role)
+        db.session.commit()
+        return jsonify(role.serialize()), 201
+    
+    except Exception as ex:
+        db.session.rollback() 
+        current_app.logger.error(f"Failed to create user: {str(ex)}")
+        return jsonify({"error": "Failed to create user"}), 500
+    
 # sample request
 # {
 #   "description": "Customer"
