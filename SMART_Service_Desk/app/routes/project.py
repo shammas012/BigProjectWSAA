@@ -6,7 +6,8 @@
 # https://www.digitalocean.com/community/tutorials/how-to-structure-a-large-flask-application-with-flask-blueprints-and-flask-sqlalchemy
 
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, current_app, jsonify, request
+from app.routes.utils import log_exceptions
 from app.models import db, Project
 
 
@@ -23,15 +24,23 @@ def getIssueTypeList():
 
 # decorator / attribute for /api/projects POST
 @bp.route('/projects', methods=['POST'])
+@log_exceptions
 def createIssueType():
-    data = request.get_json()
-    project = Project(
-        name=data['name'],
-        shortName=data['shortName'],
-        createdBy=data['createdBy']
-    )
-    db.session.add(project)
-    db.session.commit()
-    return jsonify(project.serializeJson()), 201
+    try:
+        data = request.get_json()
+        project = Project(
+            name=data['name'],
+            shortName=data['shortName'],
+            createdBy=data['createdBy']
+        )
+        db.session.add(project)
+        db.session.commit()
+        current_app.logger.info(f"Created project {project.description}.")
+
+        return jsonify(project.serializeJson()), 201
+    except Exception as ex:
+        db.session.rollback()  
+        current_app.logger.error(f"Failed to create project: {str(ex)}")
+        return jsonify({"error": "Failed to create project"}), 500
 
 

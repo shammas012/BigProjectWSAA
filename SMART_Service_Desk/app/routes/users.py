@@ -39,6 +39,8 @@ def createUser():
         )
         db.session.add(user)
         db.session.commit()
+        current_app.logger.info(f"Created user {user.username}.")
+
         return jsonify(user.serializeJson()), 201
     
     except Exception as ex:
@@ -69,6 +71,8 @@ def createUserRole():
         role = UserRole(description=data['description'])
         db.session.add(role)
         db.session.commit()
+        current_app.logger.info(f"Created user role {role.description}.")
+
         return jsonify(role.serialize()), 201
     
     except Exception as ex:

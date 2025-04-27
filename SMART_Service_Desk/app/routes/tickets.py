@@ -4,8 +4,11 @@
 # https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iv-database
 # https://realpython.com/flask-blueprint/
 # https://www.digitalocean.com/community/tutorials/how-to-structure-a-large-flask-application-with-flask-blueprints-and-flask-sqlalchemy
+# https://stackoverflow.com/questions/75578445/flask-error-or-404-query-resulting-in-sql-error
+# https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods/PUT
 
 
+from datetime import datetime
 from flask import Blueprint, jsonify, request, current_app
 from app.models import db, Ticket, Project, WorkflowStatus
 from app.routes.utils import log_exceptions
@@ -67,7 +70,7 @@ def createTicket():
         db.session.rollback()  
         current_app.logger.error(f"Failed to create ticket: {str(ex)}")
         return jsonify({"error": "Failed to create ticket"}), 500
-    
+
 # post crud body
 # {
 #   "summary": "Shammas unable to access smart DB database",
@@ -77,6 +80,61 @@ def createTicket():
 #   "issueTypeId": "dd65eef8-ddcf-4a4c-9e74-f4778f01a4cd",
 #   "projectId": "f748c0a2-545e-4c17-a452-80cb2f7c28fe"
 # }
+
+# GET /api/tickets/<key>
+@bp.route('/tickets/<key>', methods=['GET'])
+@log_exceptions
+def getTicketByKey(key):
+    try:
+        ticket = Ticket.query.get_or_404(key)
+        return jsonify({
+            'key': ticket.key,
+            'summary': ticket.summary,
+            'description': ticket.description,
+            'createdBy': ticket.createdBy,
+            'assignedTo': ticket.assignedTo,
+            'issueTypeId': ticket.issueTypeId,
+            'statusId': ticket.statusId,
+            'projectId': ticket.projectId,
+            'createdAt': ticket.createdAt,
+            'updatedAt': ticket.updatedAt
+        })
+    except Exception as ex:
+            current_app.logger.error(f"Unable to fetch ticket {ticket.key} details: {str(ex)}")
+            return jsonify({"error": "Unable to fetch ticket details for {ticket.key}"}), 500
+
+# PUT /api/tickets/<key>
+@bp.route('/tickets/<key>', methods=['PUT'])
+@log_exceptions
+def updateTicket(key):
+    try:
+        ticket = Ticket.query.get_or_404(key)
+        data = request.get_json()
+
+        ticket.summary = data.get('summary', ticket.summary)
+        ticket.description = data.get('description', ticket.description)
+        ticket.assignedTo = data.get('assignedTo', ticket.assignedTo)
+        ticket.statusId = data.get('statusId', ticket.statusId)
+        ticket.updatedAt = datetime.utcnow()
+
+        db.session.commit()
+        return jsonify({"message": "Ticket updated", "ticket": ticket.key})
+    except Exception as ex:
+        db.session.rollback()  
+        current_app.logger.error(f"Failed to update ticket {ticket.key} : {str(ex)}")
+        return jsonify({"error": "Failed to update ticket {ticket.key}"}), 500
+    
+# PUT request body
+# {
+#   "summary": "Shammas unable to access smart DB database",
+#   "description": "Shammas unable to access smart DB database, credentials not working",
+#   "assignedTo": "", 
+#   "issueTypeId": "dd65eef8-ddcf-4a4c-9e74-f4778f01a4cd",
+#   "statusId": "b1b2c3d4-5678-4321-9101-abcdef123456"
+
+#  }
+    
+
 
 
 
