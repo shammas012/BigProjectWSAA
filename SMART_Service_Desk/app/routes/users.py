@@ -28,17 +28,22 @@ def getUserList():
 @bp.route('/users', methods=['POST'])
 @log_exceptions
 def createUser():
-    data = request.get_json()
-    user = User(
-        username=data['username'],
-        email=data['email'],
-        roleid=data['roleid'],
-        fullname=data['fullname'],
-    )
-    db.session.add(user)
-    db.session.commit()
-    return jsonify(user.serializeJson()), 201
-
+    try:
+        data = request.get_json()
+        user = User(
+            username=data['username'],
+            email=data['email'],
+            roleid=data['roleid'],
+            fullname=data['fullname'],
+        )
+        db.session.add(user)
+        db.session.commit()
+        return jsonify(user.serializeJson()), 201
+    
+    except Exception as ex:
+        db.session.rollback()  # <<< 🔥 This is CRITICAL 🔥
+        current_app.logger.error(f"Failed to create user: {str(ex)}")
+        return jsonify({"error": "Failed to create user"}), 500
 # {
 #   "fullname" : "Nuwaylah ZS",
 #   "username": "NuwaylahS",
