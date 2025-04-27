@@ -10,18 +10,18 @@ from flask import Blueprint, jsonify, request
 from app.models import db, WorkflowStatus,WorkflowTransition
 
 
-#########################User##############################
+#########################statuses##############################
 
 bp = Blueprint('workflows', __name__, url_prefix='/api')
 
-# decorator / attribute for /api/users GET
-@bp.route('/workflow-statuses', methods=['GET'])
+# decorator / attribute for /api/statuses GET
+@bp.route('/statuses', methods=['GET'])
 def getWorkflowStatuses():
     statuses = WorkflowStatus.query.all()
     return jsonify([status.serializeJson() for status in statuses])
 
-# decorator / attribute for /api/users POST
-@bp.route('/workflow-statuses', methods=['POST'])
+# decorator / attribute for /api/statuses POST
+@bp.route('/statuses', methods=['POST'])
 def createWorkflowStatus():
     data = request.get_json()
     status = WorkflowStatus(
@@ -33,15 +33,20 @@ def createWorkflowStatus():
     db.session.commit()
     return jsonify(status.serializeJson()), 201
 
+# {
+#   "description": "Open",
+#   "is_default": true,
+#   "is_terminal": false
+# }
 
-#####################UserRoles######################################
+#####################Transitions######################################
 
-@bp.route('/workflow-transitions', methods=['GET'])
+@bp.route('/transitions', methods=['GET'])
 def getWorkflowTransitions():
     transitions = WorkflowTransition.query.all()
     return jsonify([transition.serializeJson() for transition in transitions])
 
-@bp.route('/workflow-transitions', methods=['POST'])
+@bp.route('/transitions', methods=['POST'])
 def createWorkflowTransition():
     data = request.get_json()
     transition = WorkflowTransition(

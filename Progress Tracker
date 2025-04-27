@@ -4,6 +4,8 @@ create app folder, init.py etc for flask
 create flask app with debug enabled - run.py
 models for phase 1 created, initialised the database and migration completed
 routes for user roles and users added.Below are the roles created in local with ids for future ref
+
+User Role
 [
     {
         "description": "Admin",
@@ -19,3 +21,127 @@ routes for user roles and users added.Below are the roles created in local with 
     }
 ]
 
+User
+[
+    {
+        "email": "shammas@atu.ie",
+        "fullname": null,
+        "id": "9439d2de-8aeb-45e8-a496-27d4f9dd9c60",
+        "roleid": "9cb9aab6-824d-48b2-bfec-561e4f92ec21",
+        "username": "Shammasm"
+    }
+]
+
+project
+{
+    "createdBy": "9439d2de-8aeb-45e8-a496-27d4f9dd9c60",
+    "id": "f748c0a2-545e-4c17-a452-80cb2f7c28fe",
+    "lastTicketNumber": 0,
+    "name": "Applications Service Desk",
+    "shortName": "ASD",
+    "timestamp": "Sun, 27 Apr 2025 10:20:11 GMT"
+}
+
+issue types
+
+[
+    {
+        "description": "Change",
+        "id": "df80eab2-f953-48d0-93ba-a3bbee03400b"
+    },
+    {
+        "description": "Incident",
+        "id": "dd65eef8-ddcf-4a4c-9e74-f4778f01a4cd"
+    },
+    {
+        "description": "Problem",
+        "id": "56625178-ef39-490c-b733-377bc21dd5c6"
+    },
+    {
+        "description": "Request",
+        "id": "8b273d80-113b-493a-babd-b867145ac57a"
+    }
+]
+
+{
+    "assignedTo": null,
+    "createdAt": "2025-04-27T14:25:38",
+    "createdBy": "9174ae62-6288-429e-b1f2-eda1ae7907f7",
+    "description": "Shammas unable to access smart DB database, credentials not working",
+    "issueTypeId": "dd65eef8-ddcf-4a4c-9e74-f4778f01a4cd",
+    "key": "ASD-2",
+    "projectId": "f748c0a2-545e-4c17-a452-80cb2f7c28fe",
+    "statusId": "4a44b1f0-92e7-4e78-8a07-0bc83b8e9353",
+    "summary": "Shammas unable to access smart DB database",
+    "updatedAt": "2025-04-27T14:25:38"
+}
+
+
+Data seeding 
+
+(SmartSD) mohamedshammasmohamedalimanaf@RE200 SMART_Service_Desk % flask run
+ * Serving Flask app 'run.py'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+127.0.0.1 - - [24/Apr/2025 20:01:09] "POST /api/roles HTTP/1.1" 201 -
+127.0.0.1 - - [24/Apr/2025 20:01:31] "POST /api/roles HTTP/1.1" 201 -
+127.0.0.1 - - [24/Apr/2025 20:01:37] "POST /api/roles HTTP/1.1" 201 -
+
+127.0.0.1 - - [24/Apr/2025 21:32:29] "GET /api/users HTTP/1.1" 500 -
+127.0.0.1 - - [24/Apr/2025 21:32:34] "GET /api/user HTTP/1.1" 404 -
+127.0.0.1 - - [24/Apr/2025 21:36:13] "POST /api/user HTTP/1.1" 404 -
+127.0.0.1 - - [24/Apr/2025 21:36:15] "POST /api/user HTTP/1.1" 404 -
+127.0.0.1 - - [24/Apr/2025 21:42:51] "POST /api/users HTTP/1.1" 500 -
+127.0.0.1 - - [24/Apr/2025 21:46:02] "POST /api/users HTTP/1.1" 500 -
+127.0.0.1 - - [24/Apr/2025 21:48:06] "POST /api/users HTTP/1.1" 500 -
+
+* Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+127.0.0.1 - - [24/Apr/2025 21:51:17] "POST /api/users HTTP/1.1" 200 -
+127.0.0.1 - - [24/Apr/2025 21:51:34] "GET /api/users HTTP/1.1" 200 -
+127.0.0.1 - - [24/Apr/2025 21:51:40] "GET /api/users HTTP/1.1" 200 -
+127.0.0.1 - - [24/Apr/2025 21:51:53] "GET /api/users HTTP/1.1" 200 -
+
+* Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+127.0.0.1 - - [26/Apr/2025 22:03:25] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/Apr/2025 22:03:35] "GET /api/users HTTP/1.1" 200 -
+127.0.0.1 - - [26/Apr/2025 22:03:51] "GET /api/userroles HTTP/1.1" 404 -
+127.0.0.1 - - [26/Apr/2025 22:04:00] "GET /api/user_roles HTTP/1.1" 404 -
+127.0.0.1 - - [26/Apr/2025 22:05:03] "GET /api/roles HTTP/1.1" 200 -
+127.0.0.1 - - [26/Apr/2025 22:05:30] "GET /api/issuetypes HTTP/1.1" 200 -
+127.0.0.1 - - [26/Apr/2025 22:06:04] "POST /api/issuetypes HTTP/1.1" 200 -
+127.0.0.1 - - [26/Apr/2025 22:06:17] "POST /api/issuetypes HTTP/1.1" 200 -
+127.0.0.1 - - [26/Apr/2025 22:06:25] "POST /api/issuetypes HTTP/1.1" 200 -
+127.0.0.1 - - [26/Apr/2025 22:06:37] "POST /api/issuetypes HTTP/1.1" 200 -
+127.0.0.1 - - [26/Apr/2025 22:06:42] "GET /api/issuetypes HTTP/1.1" 200 -
+
+(SmartSD) mohamedshammasmohamedalimanaf@RE200 SMART_Service_Desk % flask run                      
+ * Serving Flask app 'app:create_app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+127.0.0.1 - - [26/Apr/2025 23:21:50] "GET /api/statuses HTTP/1.1" 200 -
+127.0.0.1 - - [26/Apr/2025 23:45:58] "GET /api/projects HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2025 11:15:02] "GET /api/users HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2025 11:20:02] "POST /api/project HTTP/1.1" 404 -
+127.0.0.1 - - [27/Apr/2025 11:20:11] "POST /api/projects HTTP/1.1" 201 -
+127.0.0.1 - - [27/Apr/2025 12:12:09] "GET /api/tickets HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2025 12:12:18] "GET /api/issuetypes HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2025 12:13:58] "GET /api/users HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2025 12:25:48] "POST /api/users HTTP/1.1" 415 -
+127.0.0.1 - - [27/Apr/2025 12:28:46] "GET /api/users HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2025 12:32:09] "POST /api/users HTTP/1.1" 415 -
+127.0.0.1 - - [27/Apr/2025 12:33:01] "POST /api/users HTTP/1.1" 201 -
+127.0.0.1 - - [27/Apr/2025 12:37:22] "POST /api/users HTTP/1.1" 201 -
+
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+127.0.0.1 - - [27/Apr/2025 13:03:03] "POST /api/statuses HTTP/1.1" 500 -
+127.0.0.1 - - [27/Apr/2025 13:03:14] "POST /api/statuses HTTP/1.1" 201 -
+127.0.0.1 - - [27/Apr/2025 13:03:33] "POST /api/statuses HTTP/1.1" 201 -
+127.0.0.1 - - [27/Apr/2025 13:03:53] "POST /api/statuses HTTP/1.1" 201 -
+127.0.0.1 - - [27/Apr/2025 13:04:15] "POST /api/statuses HTTP/1.1" 201 -
+127.0.0.1 - - [27/Apr/2025 13:04:40] "GET /api/statuses HTTP/1.1" 200 -

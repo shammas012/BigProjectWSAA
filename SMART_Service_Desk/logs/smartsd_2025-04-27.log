@@ -1,0 +1,54 @@
+2025-04-27 14:55:07,474 ERROR: Exception on /api/tickets [POST] [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/tickets.py", line 50, in createTicket
+    statusId=data['statusId'],
+KeyError: 'statusId'
+2025-04-27 15:00:59,908 ERROR: Exception on /api/tickets [POST] [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/tickets.py", line 50, in createTicket
+    projectId=data['projectId']
+KeyError: 'statusId'
+2025-04-27 15:10:16,821 ERROR: Exception on /api/tickets [POST] [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/tickets.py", line 50, in createTicket
+    projectId=project.id
+KeyError: 'statusId'
+2025-04-27 15:22:14,095 INFO: Created ticket ASD-1 in project Applications Service Desk [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/tickets.py:57]
+2025-04-27 15:22:14,095 ERROR: Exception on /api/tickets [POST] [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/tickets.py", line 59, in createTicket
+    return jsonify(ticket.serializeJson()), 201
+AttributeError: 'Ticket' object has no attribute 'serializeJson'
+2025-04-27 15:25:37,924 INFO: Created ticket ASD-2 in project Applications Service Desk [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/tickets.py:57]

@@ -4,10 +4,12 @@
 # https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iv-database
 # https://realpython.com/flask-blueprint/
 # https://www.digitalocean.com/community/tutorials/how-to-structure-a-large-flask-application-with-flask-blueprints-and-flask-sqlalchemy
+# https://flask.palletsprojects.com/en/latest/logging/
 
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
 from app.models import db, User, UserRole
+from app.routes.utils import log_exceptions
 
 
 #########################User##############################
@@ -16,32 +18,45 @@ bp = Blueprint('users', __name__, url_prefix='/api')
 
 # decorator / attribute for /api/users GET
 @bp.route('/users', methods=['GET'])
+
+@log_exceptions
 def getUserList():
     users = User.query.all()
     return jsonify([user.serializeJson() for user in users])
 
 # decorator / attribute for /api/users POST
 @bp.route('/users', methods=['POST'])
+@log_exceptions
 def createUser():
     data = request.get_json()
     user = User(
         username=data['username'],
         email=data['email'],
-        roleid=data['roleid']
+        roleid=data['roleid'],
+        fullname=data['fullname'],
     )
     db.session.add(user)
     db.session.commit()
     return jsonify(user.serializeJson()), 201
 
+# {
+#   "fullname" : "Nuwaylah ZS",
+#   "username": "NuwaylahS",
+#   "email": "Nuwaylah@smartsd.com",
+#   "roleid": "03c2cee8-a00a-41d3-a3e5-0ae0fd728f58"
+# }
+
 
 #####################UserRoles######################################
 
 @bp.route('/roles', methods=['GET'])
+@log_exceptions
 def getUserRoles():
     roles = UserRole.query.all()
     return jsonify([r.serialize() for r in roles])
 
 @bp.route('/roles', methods=['POST'])
+@log_exceptions
 def createUserRole():
     data = request.get_json()
     role = UserRole(description=data['description'])

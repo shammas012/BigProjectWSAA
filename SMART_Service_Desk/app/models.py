@@ -53,6 +53,7 @@ class Project(db.Model):
             'timestamp': self.timestamp
         }
 
+#Issue Types and workflows inspired from Jira Service Management but in align with ITIL
 
 class IssueType(db.Model):
     __tablename__ = "issue_types"
@@ -64,6 +65,7 @@ class IssueType(db.Model):
             'description': self.description
         }
 
+#In Phase two the status might need to be tagged against each project, rather than using same statuses/worflows for all projects
 class WorkflowStatus(db.Model):
     __tablename__ = "workflow_statuses"
     id = db.Column(db.String(100), primary_key = True, default = generateGuid)
@@ -107,6 +109,20 @@ class Ticket(db.Model):
     issueType = db.relationship('IssueType', backref='tickets')
     projectId = db.Column(db.String(100), db.ForeignKey('projects.id'))
 
+    def serializeJson(self):
+        return {
+            'key': self.key,
+            'summary': self.summary,
+            'description': self.description,
+            'createdBy': self.createdBy,
+            'assignedTo': self.assignedTo,
+            'createdAt': self.createdAt.isoformat() if self.createdAt else None,
+            'updatedAt': self.updatedAt.isoformat() if self.updatedAt else None,
+            'issueTypeId': self.issueTypeId,
+            'statusId': self.statusId,
+            'projectId': self.projectId
+        }
+
 class TicketHistory(db.Model):
     __tablename__ = "ticket_history"
     id = db.Column(db.String(100), primary_key = True, default = generateGuid)
@@ -115,3 +131,13 @@ class TicketHistory(db.Model):
     toStatus = db.Column(db.String(100))
     changed_by = db.Column(db.String(100), db.ForeignKey('users.id'))
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def serializeJson(self):
+            return {
+                'id': self.id,
+                'ticketKey': self.ticketKey,
+                'fromStatus': self.fromStatus,
+                'toStatus': self.toStatus,
+                'changed_by': self.changed_by,
+                'timestamp': self.timestamp.isoformat() if self.timestamp else None
+            }
