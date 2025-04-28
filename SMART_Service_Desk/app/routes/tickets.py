@@ -111,18 +111,42 @@ def updateTicket(key):
         ticket = Ticket.query.get_or_404(key)
         data = request.get_json()
 
-        ticket.summary = data.get('summary', ticket.summary)
-        ticket.description = data.get('description', ticket.description)
-        ticket.assignedTo = data.get('assignedTo', ticket.assignedTo)
-        ticket.statusId = data.get('statusId', ticket.statusId)
-        ticket.updatedAt = datetime.utcnow()
+        changed = False  # Track if anything changed compared to the ticket details already existing in DB
 
-        db.session.commit()
-        return jsonify({"message": "Ticket updated", "ticket": ticket.key})
+        if 'summary' in data and data['summary'] != ticket.summary:
+            ticket.summary = data['summary']
+            changed = True
+
+        if 'description' in data and data['description'] != ticket.description:
+            ticket.description = data['description']
+            changed = True
+
+        if 'assignedTo' in data and data['assignedTo'] != ticket.assignedTo:
+            ticket.assignedTo = data['assignedTo']
+            changed = True
+
+        if 'statusId' in data and data['statusId'] != ticket.statusId:
+            ticket.statusId = data['statusId']
+            changed = True
+
+        if 'issueTypeId' in data and data['issueTypeId'] != ticket.issueTypeId:
+            ticket.statusId = data['issueTypeId']
+            changed = True
+
+        if changed:
+            ticket.updatedAt = datetime.utcnow()
+            db.session.commit()
+            current_app.logger.info(f"Details updated for ticket {ticket.key}.")
+            return jsonify({"message": "Ticket updated", "ticket": ticket.key}), 200
+        else:
+            current_app.logger.info(f"Ticket {ticket.key} not updated : No changes detected.")
+            return jsonify({"message": "No changes detected."}), 200
+            
+
     except Exception as ex:
         db.session.rollback()  
-        current_app.logger.error(f"Failed to update ticket {ticket.key} : {str(ex)}")
-        return jsonify({"error": "Failed to update ticket {ticket.key}"}), 500
+        current_app.logger.error(f"Failed to update ticket {Ticket.key} : {str(ex)}")
+        return jsonify({"error": "Failed to update ticket {Ticket.key}"}), 500
     
 # PUT request body
 # {

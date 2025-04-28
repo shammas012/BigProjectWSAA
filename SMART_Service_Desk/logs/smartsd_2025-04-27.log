@@ -135,3 +135,20 @@ sqlalchemy.exc.IntegrityError: (MySQLdb.IntegrityError) (1452, 'Cannot add or up
 [SQL: INSERT INTO tickets (`key`, summary, description, `createdBy`, `assignedTo`, `createdAt`, `updatedAt`, `issueTypeId`, `statusId`, `projectId`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)]
 [parameters: ('ASD-3', 'test ticket', 'test issue', '', None, datetime.datetime(2025, 4, 27, 14, 46, 4, 155060), datetime.datetime(2025, 4, 27, 14, 46, 4, 155073), '', '4a44b1f0-92e7-4e78-8a07-0bc83b8e9353', 'f748c0a2-545e-4c17-a452-80cb2f7c28fe')]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
+2025-04-27 21:31:20,424 ERROR: Exception on /api/tickets/ASD-2 [PUT] [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 939, in finalize_request
+    response = self.make_response(rv)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 1212, in make_response
+    raise TypeError(
+TypeError: The view function for 'tickets.updateTicket' did not return a valid response. The function either returned None or ended without a return statement.
+2025-04-27 21:33:37,154 ERROR: Failed to update ticket Ticket.key : (MySQLdb.IntegrityError) (1452, 'Cannot add or update a child row: a foreign key constraint fails (`smart_db`.`tickets`, CONSTRAINT `tickets_ibfk_5` FOREIGN KEY (`statusId`) REFERENCES `workflow_statuses` (`id`))')
+[SQL: UPDATE tickets SET `updatedAt`=%s, `statusId`=%s WHERE tickets.`key` = %s]
+[parameters: (datetime.datetime(2025, 4, 27, 20, 33, 37, 148071), 'dd65eef8-ddcf-4a4c-9e74-f4778f01a4cd', 'ASD-2')]
+(Background on this error at: https://sqlalche.me/e/20/gkpj) [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/tickets.py:146]
+2025-04-27 21:49:56,664 INFO: TicketASD-2 not updated : No changes detected. [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/tickets.py:142]
+2025-04-27 21:49:58,954 INFO: TicketASD-2 not updated : No changes detected. [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/tickets.py:142]
