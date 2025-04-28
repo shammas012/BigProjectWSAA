@@ -42,7 +42,6 @@ def createIssueType():
         current_app.logger.error(f"Failed to create issue type: {str(ex)}")
         return jsonify({"error": "Failed to create issue type"}), 500
 
-
 # {
 #   "description": "Incident"
 # }

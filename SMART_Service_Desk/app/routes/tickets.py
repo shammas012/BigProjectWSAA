@@ -10,7 +10,7 @@
 
 from datetime import datetime
 from flask import Blueprint, jsonify, request, current_app
-from app.models import db, Ticket, Project, WorkflowStatus
+from app.models import TicketHistory, db, Ticket, Project, WorkflowStatus
 from app.routes.utils import log_exceptions
 
 
@@ -112,6 +112,7 @@ def updateTicket(key):
         data = request.get_json()
 
         changed = False  # Track if anything changed compared to the ticket details already existing in DB
+        oldStatusId = ticket.statusId
 
         if 'summary' in data and data['summary'] != ticket.summary:
             ticket.summary = data['summary']
@@ -137,12 +138,19 @@ def updateTicket(key):
             ticket.updatedAt = datetime.utcnow()
             db.session.commit()
             current_app.logger.info(f"Details updated for ticket {ticket.key}.")
+            historyDetails = TicketHistory(
+                ticketKey=ticket.key,
+                fromStatusId=oldStatusId,
+                toStatusId=ticket.statusId,
+                changedBy="9439d2de-8aeb-45e8-a496-27d4f9dd9c60", # hardcoded for now, will be passed by UI, for API calls to get current user details implement authentication
+                timestamp=datetime.utcnow()
+            )
+            db.session.add(historyDetails)
+            current_app.logger.info(f"Ticket {ticket.key} status changed from {historyDetails.fromStatusId} to {historyDetails.toStatusId} by user {historyDetails.changed_by}")
             return jsonify({"message": "Ticket updated", "ticket": ticket.key}), 200
         else:
             current_app.logger.info(f"Ticket {ticket.key} not updated : No changes detected.")
-            return jsonify({"message": "No changes detected."}), 200
-            
-
+            return jsonify({"message": "No changes detected."}), 200           
     except Exception as ex:
         db.session.rollback()  
         current_app.logger.error(f"Failed to update ticket {Ticket.key} : {str(ex)}")
