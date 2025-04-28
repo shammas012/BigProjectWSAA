@@ -140,13 +140,13 @@ def updateTicket(key):
             current_app.logger.info(f"Details updated for ticket {ticket.key}.")
             historyDetails = TicketHistory(
                 ticketKey=ticket.key,
-                fromStatusId=oldStatusId,
-                toStatusId=ticket.statusId,
+                fromStatus=oldStatusId,
+                toStatus=ticket.statusId,
                 changedBy="9439d2de-8aeb-45e8-a496-27d4f9dd9c60", # hardcoded for now, will be passed by UI, for API calls to get current user details implement authentication
                 timestamp=datetime.utcnow()
             )
             db.session.add(historyDetails)
-            current_app.logger.info(f"Ticket {ticket.key} status changed from {historyDetails.fromStatusId} to {historyDetails.toStatusId} by user {historyDetails.changed_by}")
+            current_app.logger.info(f"Ticket {ticket.key} status changed from {historyDetails.fromStatus} to {historyDetails.toStatus} by user {historyDetails.changedBy}")
             return jsonify({"message": "Ticket updated", "ticket": ticket.key}), 200
         else:
             current_app.logger.info(f"Ticket {ticket.key} not updated : No changes detected.")
