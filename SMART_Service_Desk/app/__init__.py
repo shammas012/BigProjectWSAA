@@ -59,6 +59,9 @@ def create_app():
     from app.routes.workflows import bp as bpWorkflows
     app.register_blueprint(bpWorkflows)
 
+    from app.routes.ui import bp as bpUi
+    app.register_blueprint(bpUi)
+
 
     from . import models
 
