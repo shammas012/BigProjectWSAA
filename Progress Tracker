@@ -63,6 +63,58 @@ issue types
     }
 ]
 
+[
+    {
+        "description": "Awaiting Third Party",
+        "id": "0c5a38c2-8fc8-46cf-8438-0fc08e0e64bc",
+        "is_default": false,
+        "is_terminal": false
+    },
+    {
+        "description": "Pending Tech Change",
+        "id": "0e002d91-7530-4367-acb0-bfbfaa586585",
+        "is_default": false,
+        "is_terminal": false
+    },
+    {
+        "description": "Cancelled",
+        "id": "190c85ea-0674-41fc-a65a-bf48e9908dbd",
+        "is_default": false,
+        "is_terminal": true
+    },
+    {
+        "description": "Completed",
+        "id": "1ad0f3c6-4d54-4059-9f97-f115af2822a8",
+        "is_default": false,
+        "is_terminal": true
+    },
+    {
+        "description": "Open",
+        "id": "4a44b1f0-92e7-4e78-8a07-0bc83b8e9353",
+        "is_default": true,
+        "is_terminal": false
+    },
+    {
+        "description": "Waiting for Support",
+        "id": "5e19c01f-aad6-4a1d-ba3a-1a65eeddb1dc",
+        "is_default": false,
+        "is_terminal": false
+    },
+    {
+        "description": "In Progress",
+        "id": "dc4a63a4-c31b-4431-8608-6e44c45c5ec8",
+        "is_default": false,
+        "is_terminal": false
+    },
+    {
+        "description": "Waiting for Customer",
+        "id": "f63646d3-81b4-47e8-bca9-c9ea91a4411c",
+        "is_default": false,
+        "is_terminal": false
+    }
+]
+
+Ticket
 {
     "assignedTo": null,
     "createdAt": "2025-04-27T14:25:38",

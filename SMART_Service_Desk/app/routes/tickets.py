@@ -138,15 +138,7 @@ def updateTicket(key):
             ticket.updatedAt = datetime.utcnow()
             db.session.commit()
             current_app.logger.info(f"Details updated for ticket {ticket.key}.")
-            historyDetails = TicketHistory(
-                ticketKey=ticket.key,
-                fromStatus=oldStatusId,
-                toStatus=ticket.statusId,
-                changedBy="9439d2de-8aeb-45e8-a496-27d4f9dd9c60", # hardcoded for now, will be passed by UI, for API calls to get current user details implement authentication
-                timestamp=datetime.utcnow()
-            )
-            db.session.add(historyDetails)
-            current_app.logger.info(f"Ticket {ticket.key} status changed from {historyDetails.fromStatus} to {historyDetails.toStatus} by user {historyDetails.changedBy}")
+            updateHistoryDetails(ticket, oldStatusId)
             return jsonify({"message": "Ticket updated", "ticket": ticket.key}), 200
         else:
             current_app.logger.info(f"Ticket {ticket.key} not updated : No changes detected.")
@@ -155,6 +147,17 @@ def updateTicket(key):
         db.session.rollback()  
         current_app.logger.error(f"Failed to update ticket {Ticket.key} : {str(ex)}")
         return jsonify({"error": "Failed to update ticket {Ticket.key}"}), 500
+
+def updateHistoryDetails(ticket, oldStatusId):
+    historyDetails = TicketHistory(
+                ticketKey=ticket.key,
+                fromStatus=oldStatusId,
+                toStatus=ticket.statusId,
+                changedBy="9439d2de-8aeb-45e8-a496-27d4f9dd9c60", # hardcoded for now, will be passed by UI, for API calls to get current user details implement authentication
+                timestamp=datetime.utcnow()
+            )
+    db.session.add(historyDetails)
+    current_app.logger.info(f"Ticket {ticket.key} status changed from {historyDetails.fromStatus} to {historyDetails.toStatus} by user {historyDetails.changedBy}")
     
 # PUT request body
 # {
