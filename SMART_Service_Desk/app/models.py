@@ -23,6 +23,7 @@ class User(db.Model):
     fullname = db.Column(db.String(100))
     email = db.Column(db.String(100), unique=True)
     roleid = db.Column(db.String(100), db.ForeignKey('user_roles.id'))
+    role = db.relationship('UserRole', foreign_keys=[roleid])
 
     def serializeJson(self):
         return {
