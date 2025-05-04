@@ -1,0 +1,39 @@
+<!--
+https://jinja.palletsprojects.com/en/stable/templates/#html-escaping
+-->
+
+{% extends 'master.html' %}
+
+{% block content %}
+<h2>All Tickets</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Key</th>
+      <th>Summary</th>
+      <th>Status</th>
+      <th>Reporter</th>
+      <th>Assignee</th>
+      <th>Created At</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ticket in tickets %}
+    <tr>
+      <td>{{ loop.index + offset }}</td>
+      <td><a href="/tickets/{{ ticket.key }}">{{ ticket.key }}</a></td>
+      <td>{{ ticket.summary }}</td>
+      <td>{{ ticket.status.description if ticket.status else '—' }}</td>
+      <td>{{ ticket.Reporter.fullname if ticket.Reporter else '—' }}</td>
+      <td>{{ ticket.Assignee.fullname if ticket.Assignee else '—' }}</td>
+      <td>{{ ticket.createdAt.strftime('%Y-%m-%d %H:%M') }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<p class="text-muted">
+  Showing {{ offset + 1 }}–{{ offset + tickets|length }} of {{ total }}
+</p>
+{% endblock %}

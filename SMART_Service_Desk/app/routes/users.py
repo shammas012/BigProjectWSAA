@@ -55,6 +55,42 @@ def createUser():
 # }
 
 
+# decorator / attribute for /api/users/<user_id> PUT
+@bp.route('/users/<user_id>', methods=['PUT'])
+# @log_exceptions
+def updateUser(user_id):
+    try:
+        print(f"PUT /users/{user_id} was called")
+        data = request.get_json()
+        user = User.query.get(user_id)
+
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+
+        # Update fields if provided in request
+        user.username = data.get('username', user.username)
+        user.email = data.get('email', user.email)
+        user.fullname = data.get('fullname', user.fullname)
+        user.roleid = data.get('roleid', user.roleid)
+
+        db.session.commit()
+        current_app.logger.info(f"Updated user {user.username}.")
+
+        return jsonify(user.serializeJson()), 200
+
+    except Exception as ex:
+        db.session.rollback()
+        current_app.logger.error(f"Failed to update user: {str(ex)}")
+        return jsonify({"error": "Failed to update user"}), 500
+
+{
+  "email": "Nuwaylah@smartsd.com",
+  "fullname": "Nuwaylah Zaisha",
+  "roleid": "03c2cee8-a00a-41d3-a3e5-0ae0fd728f58",
+  "username": "NuwaylahS"
+}
+
+
 #####################UserRoles######################################
 
 @bp.route('/roles', methods=['GET'])

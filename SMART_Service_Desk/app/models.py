@@ -108,6 +108,10 @@ class Ticket(db.Model):
     statusId = db.Column(db.String(100), db.ForeignKey('workflow_statuses.id'))
     issueType = db.relationship('IssueType', backref='tickets')
     projectId = db.Column(db.String(100), db.ForeignKey('projects.id'))
+    Reporter = db.relationship('User', foreign_keys=[createdBy], backref='created_tickets')
+    Assignee = db.relationship('User', foreign_keys=[assignedTo], backref='assigned_tickets')
+    status = db.relationship('WorkflowStatus', foreign_keys=[statusId])
+
 
     def serializeJson(self):
         return {
