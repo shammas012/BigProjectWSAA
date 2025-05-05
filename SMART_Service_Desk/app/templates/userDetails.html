@@ -4,34 +4,39 @@ https://stackoverflow.com/questions/12330086/how-to-loop-through-selected-elemen
 
 -->
 {% extends 'master.html' %}
+{% block title %}{{ 'Create User' if is_new_user else 'Edit User - ' ~ user.username }}{% endblock %}
 
 {% block content %}
-<h2>Edit User – {{ user.username }}</h2>
+<h2>{{ 'Create User' if is_new_user else 'Edit User - ' ~ user.username }}</h2>
 
 <form method="POST" action="{{ url_for('ui.register_user') }}">
 
 <div class="mb-3">
   <label class="form-label">Username</label>
-  <input type="text" class="form-control {% if not is_new_user %}autosave{% endif %}"
+  <input name="username" type="text" class="form-control {% if not is_new_user %}autosave{% endif %}"
         data-field="username"
         value="{{ user.username }}"
-        {% if not is_new_user %}readonly{% endif %}>
+        {% if not is_new_user %}readonly{% endif %}
+        {% if is_new_user %}required{% endif %}>
 </div>
 
 <div class="mb-3">
   <label class="form-label">Full Name</label>
-  <input type="text" class="form-control {% if not is_new_user %}autosave{% endif %}" data-field="fullname" value="{{ user.fullname }}">
+  <input name="fullname" type="text" class="form-control {% if not is_new_user %}autosave{% endif %}" data-field="fullname" value="{{ user.fullname }}"
+    {% if is_new_user %}required{% endif %}>
+
 </div>
 
 <div class="mb-3">
   <label class="form-label">Email</label>
-  <input type="email" class="form-control {% if not is_new_user %}autosave{% endif %}" data-field="email" value="{{ user.email }}">
+  <input name="email" type="email" class="form-control {% if not is_new_user %}autosave{% endif %}" data-field="email" value="{{ user.email }}"
+    {% if is_new_user %}required{% endif %}>
 </div>
 
 <!-- Role Dropdown -->
 <div class="mb-3">
   <label class="form-label">Role</label>
-  <select class="form-control {% if not is_new_user %}autosave{% endif %}" data-field="roleid">
+  <select name="roleid" class="form-control {% if not is_new_user %}autosave{% endif %}" data-field="roleid" {% if is_new_user %}required{% endif %}>
     {% if is_new_user %}
       <option value="">-- Select Role --</option>
     {% endif %}
@@ -46,15 +51,16 @@ https://stackoverflow.com/questions/12330086/how-to-loop-through-selected-elemen
 <!-- Created By -->
 <div class="mb-3">
   <label class="form-label">Created By</label>
-  <select class="form-control {% if not is_new_user %}autosave{% endif %}" data-field="createdBy" disabled aria-readonly="true">
-    {% if is_new_user %}
-      <option value="">-- Select Creator --</option>
-    {% endif %}
-    {% for u in users %}
-      <option value="{{ u.id }}" {% if user.createdBy == u.id %}selected{% endif %}>
-        {{ u.fullname }}
-      </option>
-    {% endfor %}
+  <select name="createdBy" class="form-control {% if not is_new_user %}autosave{% endif %}" 
+    data-field="createdBy" {% if not is_new_user %}disabled aria-readonly="true"{% endif %}>
+      {% if is_new_user %}
+        <option value="">-- Select Creator --</option>
+      {% endif %}
+      {% for u in users %}
+        <option value="{{ u.id }}" {% if user.createdBy == u.id %}selected{% endif %}>
+          {{ u.fullname }}
+        </option>
+      {% endfor %}
   </select>
 </div>
 
@@ -62,21 +68,21 @@ https://stackoverflow.com/questions/12330086/how-to-loop-through-selected-elemen
 <!-- Created At -->
   <div class="mb-3">
     <label class="form-label">Created At</label>
-    <input type="datetime-local" class="form-control"
+    <input name="createdAt" type="datetime-local" class="form-control"
           value="{{ user.createdAt.strftime('%Y-%m-%dT%H:%M') if user.createdAt else '' }}" readonly>
   </div>
 
   <!-- Updated At -->
   <div class="mb-3">
     <label class="form-label">Last Updated</label>
-    <input type="datetime-local" class="form-control"
+    <input name="updatedAt" type="datetime-local" class="form-control"
         value="{{ user.updatedAt.strftime('%Y-%m-%dT%H:%M') if user.updatedAt else '' }}" readonly>
   </div>
 {% endif %}
 
 <!-- Submit button only for create mode -->
 {% if is_new_user %}
-  <button type="submit" class="btn btn-primary mt-3">Create User</button>
+  <button name="submit" type="submit" class="btn btn-primary mt-3">Create User</button>
 {% endif %}
 
 </form>

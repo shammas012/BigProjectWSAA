@@ -116,7 +116,7 @@ def register_user():
                 fullname=data.get('fullname'),
                 email=data.get('email'),
                 roleid=data.get('roleid'),
-                createdBy="9439d2de-8aeb-45e8-a496-27d4f9dd9c60"  # this need to be user_id
+                createdBy=data.get('createdBy')  # if time allows implement Oauth2/JWT to get the details of logged in user.
             )
             db.session.add(new_user)
             db.session.commit()
@@ -126,10 +126,12 @@ def register_user():
             db.session.rollback()
             flash(f"Failed to create user: {str(ex)}", "danger")
 
-    return render_template('userDetails.html',
-                           mode='create',
-                           user=None,
-                           userRoles=UserRole.query.all(),
-                           users=User.query.all())
+    return render_template(
+            'userDetails.html',
+            user=User(), 
+            is_new_user=True,  
+            userRoles=UserRole.query.all(),
+            users=User.query.all()
+    )
 
 
