@@ -24,6 +24,9 @@ class User(db.Model):
     email = db.Column(db.String(100), unique=True)
     roleid = db.Column(db.String(100), db.ForeignKey('user_roles.id'))
     role = db.relationship('UserRole', foreign_keys=[roleid])
+    createdBy = db.Column(db.String(100), db.ForeignKey('users.id'))
+    createdAt = db.Column(db.DateTime, default=datetime.utcnow)
+    updatedAt = db.Column(db.DateTime, default=datetime.utcnow)
 
     def serializeJson(self):
         return {
@@ -31,7 +34,10 @@ class User(db.Model):
             'username': self.username,
             'fullname': self.fullname,
             'email': self.email,
-            'roleid': self.roleid
+            'roleid': self.roleid,
+            'createdBy': self.createdBy,
+            'createdAt': self.createdAt.isoformat() if self.createdAt else None,
+            'updatedAt': self.updatedAt.isoformat() if self.updatedAt else None,
         }
 
 class Project(db.Model):

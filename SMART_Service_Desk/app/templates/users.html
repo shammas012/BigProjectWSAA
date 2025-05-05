@@ -10,30 +10,28 @@ https://jinja.palletsprojects.com/en/stable/templates/#html-escaping
   <thead>
     <tr>
       <th>#</th>
-      <th>Key</th>
-      <th>Summary</th>
-      <th>Status</th>
-      <th>Reporter</th>
-      <th>Assignee</th>
-      <th>Created At</th>
+      <th>#</th>
+      <th>Username</th>
+      <th>Full Name</th>
+      <th>Email</th>
+      <th>Role</th>
     </tr>
   </thead>
   <tbody>
-    {% for ticket in tickets %}
+    {% for user in users %}
     <tr>
       <td>{{ loop.index + offset }}</td>
-      <td><a href="/tickets/{{ ticket.key }}">{{ ticket.key }}</a></td>
-      <td>{{ ticket.summary }}</td>
-      <td>{{ ticket.status.description if ticket.status else '—' }}</td>
-      <td>{{ ticket.Reporter.fullname if ticket.Reporter else '—' }}</td>
-      <td>{{ ticket.Assignee.fullname if ticket.Assignee else '—' }}</td>
-      <td>{{ ticket.createdAt.strftime('%Y-%m-%d %H:%M') }}</td>
+      <td><a href="/users/{{user.id }}">{{ username }}</a></td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.fullname }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.role.description if user.role else '—' }}</td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
 
 <p class="text-muted">
-  Showing {{ offset + 1 }}–{{ offset + tickets|length }} of {{ total }}
+  Showing {{ offset + 1 }}–{{ offset + users|length }} of {{ total }}
 </p>
 {% endblock %}

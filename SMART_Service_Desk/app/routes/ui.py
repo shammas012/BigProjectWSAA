@@ -54,3 +54,13 @@ def update_ticket_field(key):
         return {"error": f"Failed to update field: {str(ex)}"}, 500
 
 
+@bp.route('/users')
+def view_users():
+    page = int(request.args.get('page', 1))
+    per_page = 50
+    offset = (page - 1) * per_page
+
+    users = User.query.order_by(User.createdAt.desc()).offset(offset).limit(per_page).all()
+    total = User.query.count()
+
+    return render_template('users.html', users=users, total=total, offset=offset, page=page, per_page=per_page)
