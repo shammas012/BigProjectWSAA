@@ -102,3 +102,34 @@ def update_user_field(user_id):
         db.session.rollback()
         current_app.logger.error(f"Failed to update user: {str(ex)}")
         return jsonify({"error": "Failed to update user"}), 500
+    
+@bp.route('/users/new', methods=['GET', 'POST'], endpoint='register_user')
+def register_user():
+    from app.models import User, UserRole, db
+    from flask import request, redirect, url_for, flash
+
+    if request.method == 'POST':
+        try:
+            data = request.form
+            new_user = User(
+                username=data.get('username'),
+                fullname=data.get('fullname'),
+                email=data.get('email'),
+                roleid=data.get('roleid'),
+                createdBy="9439d2de-8aeb-45e8-a496-27d4f9dd9c60"  # this need to be user_id
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            flash(f"User {new_user.username} created successfully.", "success")
+            return redirect(url_for('ui.view_users'))
+        except Exception as ex:
+            db.session.rollback()
+            flash(f"Failed to create user: {str(ex)}", "danger")
+
+    return render_template('userDetails.html',
+                           mode='create',
+                           user=None,
+                           userRoles=UserRole.query.all(),
+                           users=User.query.all())
+
+

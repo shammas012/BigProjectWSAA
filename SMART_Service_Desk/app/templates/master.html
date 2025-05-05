@@ -4,6 +4,7 @@
     https://jinja.palletsprojects.com/en/stable/templates/#template-inheritance
 
 -->
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -18,6 +19,16 @@
             <b><a class="navbar-brand" href="/">Smart SD</a></b>
         </div>
         </nav>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container mt-3">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
 
         <!--Jinja block for inheritance, empty block to be implemented by inheriting pages-->
     

@@ -8,6 +8,8 @@ https://stackoverflow.com/questions/12330086/how-to-loop-through-selected-elemen
 {% block content %}
 <h2>Edit User – {{ user.username }}</h2>
 
+<form method="POST" action="{{ url_for('ui.register_user') }}">
+
 <div class="mb-3">
   <label class="form-label">Username</label>
   <input type="text" class="form-control autosave" data-field="username" value="{{ user.username }}" readonly>

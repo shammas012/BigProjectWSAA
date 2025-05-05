@@ -5,7 +5,10 @@ https://jinja.palletsprojects.com/en/stable/templates/#html-escaping
 {% extends 'master.html' %}
 
 {% block content %}
-<h2>Users</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Users</h2>
+  <a href="{{ url_for('ui.register_user') }}" class="btn btn-primary">+ Create</a>
+</div>
 <table class="table table-striped">
   <thead>
     <tr>
