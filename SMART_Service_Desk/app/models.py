@@ -1,6 +1,11 @@
+# references
+# https://stackoverflow.com/questions/58452887/how-can-i-utilize-werkzeug-securitys-check-password-hash-function-to-verify-cor
+# https://testdriven.io/tips/9901c635-2ab2-42cf-a5f0-b4f3ef0b48c3/
+# https://dev.to/goke/securing-your-flask-application-hashing-passwords-tutorial-2f0p
 from datetime import datetime
 from . import db
 import uuid as guid
+from werkzeug.security import generate_password_hash, check_password_hash
 
 def generateGuid():
     return str(guid.uuid4())
@@ -28,6 +33,13 @@ class User(db.Model):
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
     updatedAt = db.Column(db.DateTime, default=datetime.utcnow)
     Creator = db.relationship('User', foreign_keys=[createdBy], remote_side=[id], backref='users_created_by')
+    password_hash = db.Column(db.String(128))
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     def serializeJson(self):
         return {

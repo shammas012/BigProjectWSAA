@@ -13,10 +13,12 @@ from flask_sqlalchemy import SQLAlchemy
 import os, logging
 from flask_migrate import Migrate
 from .config import Config
+from flask_jwt_extended import JWTManager
 
 
 db = SQLAlchemy()
 migrate = Migrate() # Added to fix db init issues
+jwt = JWTManager()  # <--- This is the missing piece
 
 def create_app():
     app = Flask(__name__)
@@ -24,6 +26,7 @@ def create_app():
     # debug
     #print("SQLALCHEMY_DATABASE_URI:", app.config.get('SQLALCHEMY_DATABASE_URI'))
     db.init_app(app)
+    jwt.init_app(app)
     migrate.init_app(app, db)
     
     #logic for Logging goes here 

@@ -15,21 +15,21 @@ https://stackoverflow.com/questions/12330086/how-to-loop-through-selected-elemen
   <label class="form-label">Username</label>
   <input name="username" type="text" class="form-control {% if not is_new_user %}autosave{% endif %}"
         data-field="username"
-        value="{{ user.username }}"
+        value="{{ user.username or ''}}"
         {% if not is_new_user %}readonly{% endif %}
         {% if is_new_user %}required{% endif %}>
 </div>
 
 <div class="mb-3">
   <label class="form-label">Full Name</label>
-  <input name="fullname" type="text" class="form-control {% if not is_new_user %}autosave{% endif %}" data-field="fullname" value="{{ user.fullname }}"
+  <input name="fullname" type="text" class="form-control {% if not is_new_user %}autosave{% endif %}" data-field="fullname" value="{{ user.fullname or '' }}"
     {% if is_new_user %}required{% endif %}>
 
 </div>
 
 <div class="mb-3">
   <label class="form-label">Email</label>
-  <input name="email" type="email" class="form-control {% if not is_new_user %}autosave{% endif %}" data-field="email" value="{{ user.email }}"
+  <input name="email" type="email" class="form-control {% if not is_new_user %}autosave{% endif %}" data-field="email" value="{{ user.email or '' }}"
     {% if is_new_user %}required{% endif %}>
 </div>
 
