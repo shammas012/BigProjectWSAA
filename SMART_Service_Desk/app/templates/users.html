@@ -5,27 +5,28 @@ https://jinja.palletsprojects.com/en/stable/templates/#html-escaping
 {% extends 'master.html' %}
 
 {% block content %}
-<h2>All Tickets</h2>
+<h2>Users</h2>
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>#</th>
       <th>#</th>
       <th>Username</th>
       <th>Full Name</th>
       <th>Email</th>
       <th>Role</th>
+      <th>Created At</th>
     </tr>
   </thead>
   <tbody>
     {% for user in users %}
     <tr>
       <td>{{ loop.index + offset }}</td>
-      <td><a href="/users/{{user.id }}">{{ username }}</a></td>
-      <td>{{ user.username }}</td>
+      <td><a href="/users/{{user.id}}">{{ user.username }}</a></td>
       <td>{{ user.fullname }}</td>
       <td>{{ user.email }}</td>
       <td>{{ user.role.description if user.role else '—' }}</td>
+      <td>{{ user.createdAt.strftime('%Y-%m-%d %H:%M') if user.createdAt else '—' }}</td>
+      <td>{{ user.Creator.fullname if user.Creator else '—' }}</td>
     </tr>
     {% endfor %}
   </tbody>

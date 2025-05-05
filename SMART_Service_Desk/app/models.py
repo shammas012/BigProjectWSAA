@@ -27,6 +27,7 @@ class User(db.Model):
     createdBy = db.Column(db.String(100), db.ForeignKey('users.id'))
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
     updatedAt = db.Column(db.DateTime, default=datetime.utcnow)
+    Creator = db.relationship('User', foreign_keys=[createdBy], remote_side=[id], backref='users_created_by')
 
     def serializeJson(self):
         return {

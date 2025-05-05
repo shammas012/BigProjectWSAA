@@ -1,0 +1,87 @@
+<!--
+https://getbootstrap.com/docs/5.0/forms/form-control/
+https://stackoverflow.com/questions/12330086/how-to-loop-through-selected-elements-with-document-queryselectorall
+
+-->
+{% extends 'master.html' %}
+
+{% block content %}
+<h2>Edit Ticket – {{ ticket.key }}</h2>
+
+<div class="mb-3">
+  <label class="form-label">Summary</label>
+  <textarea class="form-control autosave" data-field="summary">{{ ticket.summary }}</textarea>
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Description</label>
+  <textarea class="form-control autosave" data-field="description" rows="5">{{ ticket.description }}</textarea>
+</div>
+
+<!-- Reporter Dropdown -->
+<div class="mb-3">
+  <label class="form-label">Reporter</label>
+  <select class="form-select autosave" data-field="createdBy">
+    {% for user in users %}
+      <option value="{{ user.id }}" {% if ticket.createdBy == user.id %}selected{% endif %}>
+        {{ user.fullname }}
+      </option>
+    {% endfor %}
+  </select>
+</div>
+
+<!-- Assignee Dropdown -->
+<div class="mb-3">
+  <label class="form-label">Assignee</label>
+  <select class="form-select autosave" data-field="assignedTo">
+    {% for user in users %}
+      <option value="{{ user.id }}" {% if ticket.assignedTo == user.id %}selected{% endif %}>
+        {{ user.fullname }}
+      </option>
+    {% endfor %}
+  </select>
+</div>
+
+<!-- Created At -->
+<div class="mb-3">
+  <label class="form-label">Created At</label>
+  <input type="datetime-local" class="form-control" value="{{ ticket.createdAt.strftime('%Y-%m-%dT%H:%M') }}" readonly>
+
+</div>
+
+<!-- Updated At -->
+<div class="mb-3">
+  <label class="form-label">Last Updated</label>
+  <input type="datetime-local" class="form-control" data-field="updatedAt"
+         value="{{ ticket.updatedAt.strftime('%Y-%m-%dT%H:%M') }}" readonly>
+</div>
+
+<div id="statusMessage" class="text-muted small"></div>
+
+<a href="/tickets" class="btn btn-secondary mt-3">← Back to List</a>
+
+<script>
+document.querySelectorAll('.autosave').forEach(field => {
+  const save = () => {
+    fetch(location.pathname, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        field: field.dataset.field,
+        value: field.value
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('statusMessage').textContent = data.message || data.error;
+    })
+    .catch(() => {
+      document.getElementById('statusMessage').textContent = 'Failed to save.';
+    });
+  };
+
+  field.addEventListener('blur', save);
+  field.addEventListener('change', save);  // for dropdowns
+});
+</script>
+{% endblock %}

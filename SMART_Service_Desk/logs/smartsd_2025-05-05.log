@@ -141,3 +141,182 @@ FROM users ORDER BY users.`createdAt` DESC
  LIMIT %s, %s]
 [parameters: (0, 50)]
 (Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-05-05 05:54:00,083 ERROR: Exception on /users [GET] [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py", line 63, in view_users
+    users = User.query.order_by(User.createdAt.desc()).offset(offset).limit(per_page).all()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask_sqlalchemy/model.py", line 22, in __get__
+    return cls.query_class(
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/query.py", line 276, in __init__
+    self._set_entities(entities)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/query.py", line 288, in _set_entities
+    self._raw_columns = [
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/query.py", line 289, in <listcomp>
+    coercions.expect(
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/sql/coercions.py", line 388, in expect
+    insp._post_inspect
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/util/langhelpers.py", line 1257, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/mapper.py", line 4214, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/mapper.py", line 4255, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/mapper.py", line 2418, in _post_configure_properties
+    prop.init()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/interfaces.py", line 589, in init
+    self.do_init()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/relationships.py", line 1661, in do_init
+    self._generate_backref()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/relationships.py", line 2142, in _generate_backref
+    mapper._configure_property(
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/mapper.py", line 2251, in _configure_property
+    prop.init()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/interfaces.py", line 589, in init
+    self.do_init()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/relationships.py", line 1661, in do_init
+    self._generate_backref()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/relationships.py", line 2147, in _generate_backref
+    self._add_reverse_property(self.back_populates)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/relationships.py", line 1628, in _add_reverse_property
+    raise sa_exc.ArgumentError(
+sqlalchemy.exc.ArgumentError: User.Creator and back-reference User.ticket_creator are both of the same direction <RelationshipDirection.ONETOMANY: 1>.  Did you mean to set remote_side on the many-to-one side ?
+2025-05-05 05:59:36,785 ERROR: Exception on /users [GET] [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py", line 63, in view_users
+    users = User.query.order_by(User.createdAt.desc()).offset(offset).limit(per_page).all()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask_sqlalchemy/model.py", line 22, in __get__
+    return cls.query_class(
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/query.py", line 276, in __init__
+    self._set_entities(entities)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/query.py", line 288, in _set_entities
+    self._raw_columns = [
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/query.py", line 289, in <listcomp>
+    coercions.expect(
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/sql/coercions.py", line 388, in expect
+    insp._post_inspect
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/util/langhelpers.py", line 1257, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/mapper.py", line 4214, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/mapper.py", line 4255, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/mapper.py", line 2418, in _post_configure_properties
+    prop.init()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/interfaces.py", line 589, in init
+    self.do_init()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/relationships.py", line 1661, in do_init
+    self._generate_backref()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/relationships.py", line 2142, in _generate_backref
+    mapper._configure_property(
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/mapper.py", line 2251, in _configure_property
+    prop.init()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/interfaces.py", line 589, in init
+    self.do_init()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/relationships.py", line 1661, in do_init
+    self._generate_backref()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/relationships.py", line 2147, in _generate_backref
+    self._add_reverse_property(self.back_populates)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/relationships.py", line 1628, in _add_reverse_property
+    raise sa_exc.ArgumentError(
+sqlalchemy.exc.ArgumentError: User.Creator and back-reference User.ticket_creator are both of the same direction <RelationshipDirection.ONETOMANY: 1>.  Did you mean to set remote_side on the many-to-one side ?
+2025-05-05 05:59:38,094 ERROR: Exception on /users [GET] [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py", line 63, in view_users
+    users = User.query.order_by(User.createdAt.desc()).offset(offset).limit(per_page).all()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask_sqlalchemy/model.py", line 22, in __get__
+    return cls.query_class(
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/query.py", line 276, in __init__
+    self._set_entities(entities)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/query.py", line 288, in _set_entities
+    self._raw_columns = [
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/query.py", line 289, in <listcomp>
+    coercions.expect(
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/sql/coercions.py", line 388, in expect
+    insp._post_inspect
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/util/langhelpers.py", line 1257, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/mapper.py", line 4214, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/sqlalchemy/orm/mapper.py", line 4251, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[User(users)]'. Original exception was: User.Creator and back-reference User.ticket_creator are both of the same direction <RelationshipDirection.ONETOMANY: 1>.  Did you mean to set remote_side on the many-to-one side ?
+2025-05-05 06:05:11,146 ERROR: Exception on /users [GET] [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py:875]
+Traceback (most recent call last):
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py", line 66, in view_users
+    return render_template('users.html', users=users, total=total, offset=offset, page=page, per_page=per_page)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/jinja2/environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/jinja2/environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/templates/users.html", line 5, in top-level template code
+    {% extends 'master.html' %}
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/templates/master.html", line 25, in top-level template code
+    {% block content %}{% endblock %}
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/templates/users.html", line 29, in block 'content'
+    <td>{{ user.createdAt.strftime('%Y-%m-%d %H:%M') }}</td>
+  File "/Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/SmartSD/lib/python3.9/site-packages/jinja2/utils.py", line 92, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+jinja2.exceptions.UndefinedError: 'None' has no attribute 'strftime'
+2025-05-05 07:00:11,672 INFO: Updated user Shammasm: username = Shammasm [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py:99]
+2025-05-05 07:00:21,162 INFO: Updated user Shammasm: fullname = Shammas Mohamed [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py:99]
+2025-05-05 07:00:23,140 INFO: Updated user Shammasm: email = shammas@atu.ie [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py:99]
+2025-05-05 07:00:25,913 INFO: Updated user Shammasm: roleid = ab126199-6b6f-428d-82ea-8d51e8e31d21 [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py:99]
+2025-05-05 07:00:27,605 INFO: Updated user Shammasm: roleid = ab126199-6b6f-428d-82ea-8d51e8e31d21 [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py:99]
+2025-05-05 07:00:36,712 INFO: Updated user Shammasm: roleid = 9cb9aab6-824d-48b2-bfec-561e4f92ec21 [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py:99]
+2025-05-05 07:00:42,865 INFO: Updated user Shammasm: roleid = 9cb9aab6-824d-48b2-bfec-561e4f92ec21 [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py:99]
+2025-05-05 07:01:30,277 INFO: Updated user Shammasm: username = Shammasm [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py:99]
+2025-05-05 07:02:54,406 INFO: Updated user Shammasm: username = Shammasm [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py:99]
+2025-05-05 07:03:02,865 INFO: Updated user NuwaylahS: username = NuwaylahS [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py:99]
+2025-05-05 07:03:04,312 INFO: Updated user NuwaylahS: fullname = Nuwaylah Zaisha [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py:99]
+2025-05-05 07:03:37,138 INFO: Updated user NuwaylahS: email = Nuwaylah@smartsd.com [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py:99]
+2025-05-05 07:06:27,565 INFO: Updated user NuwaylahS: email = Nuwaylah@smartsd.com [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py:99]
+2025-05-05 07:06:40,301 ERROR: Exception in ticket_detail: ticketDetails.html [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/utils.py:17]
+2025-05-05 07:06:50,893 ERROR: Exception in ticket_detail: ticketDetails.html [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/utils.py:17]

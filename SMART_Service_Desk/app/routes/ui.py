@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request
-from app.models import Ticket, User, db
+from datetime import datetime
+from flask import Blueprint, current_app, jsonify, render_template, request
+from app.models import Ticket, User, UserRole, db
 from app.routes.utils import log_exceptions
 
 bp = Blueprint('ui', __name__)
@@ -11,6 +12,7 @@ def dashboard():
 
 
 @bp.route('/tickets')
+@log_exceptions
 def view_tickets():
     page = int(request.args.get('page', 1))
     per_page = 50
@@ -22,10 +24,21 @@ def view_tickets():
     return render_template('tickets.html', tickets=tickets, total=total, offset=offset, page=page, per_page=per_page)
 
 @bp.route('/tickets/<key>')
+@log_exceptions
 def ticket_detail(key):
     ticket = Ticket.query.filter_by(key=key).first_or_404()
     users = User.query.order_by(User.fullname).all()
     return render_template('ticketDetails.html', ticket=ticket, users = users)
+
+@bp.route('/users/<user_id>', methods=['GET'])
+@log_exceptions
+def view_user(user_id):
+    user = User.query.get_or_404(user_id)
+    userRoles = UserRole.query.order_by(UserRole.description).all()
+    users = User.query.order_by(User.fullname).all()
+
+    return render_template('userDetails.html', user=user, userRoles=userRoles, users=users)
+
 
 @bp.route('/debug-users')
 def debug_user_ids():
@@ -46,15 +59,17 @@ def update_ticket_field(key):
 
     try:
         setattr(ticket, field, value)
-        ticket.updatedAt = db.func.now()
+        ticket.updatedAt = db.func.now() # update the timestamp automatically
         db.session.commit()
         return {"message": f"{field} updated"}, 200
     except Exception as ex:
         db.session.rollback()
-        return {"error": f"Failed to update field: {str(ex)}"}, 500
+        current_app.logger.error(f"Failed to update user: {str(ex)}")
+        return {"error": f"Failed to update ticket: {str(ex)}"}, 500
 
 
 @bp.route('/users')
+@log_exceptions
 def view_users():
     page = int(request.args.get('page', 1))
     per_page = 50
@@ -64,3 +79,26 @@ def view_users():
     total = User.query.count()
 
     return render_template('users.html', users=users, total=total, offset=offset, page=page, per_page=per_page)
+
+
+@bp.route('/users/<user_id>', methods=['PATCH'])
+@log_exceptions
+def update_user_field(user_id):
+    data = request.get_json()
+    field = data.get("field")
+    value = data.get("value")
+
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    try:
+        setattr(user, field, value)
+        user.updatedAt = datetime.utcnow()  # update the timestamp automatically
+        db.session.commit()
+        current_app.logger.info(f"Updated user {user.username}: {field} = {value}")
+        return jsonify({"message": f"{field} updated successfully"}), 200
+    except Exception as ex:
+        db.session.rollback()
+        current_app.logger.error(f"Failed to update user: {str(ex)}")
+        return jsonify({"error": "Failed to update user"}), 500

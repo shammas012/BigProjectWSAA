@@ -6,37 +6,42 @@ https://stackoverflow.com/questions/12330086/how-to-loop-through-selected-elemen
 {% extends 'master.html' %}
 
 {% block content %}
-<h2>Edit Ticket – {{ ticket.key }}</h2>
+<h2>Edit User – {{ user.username }}</h2>
 
 <div class="mb-3">
-  <label class="form-label">Summary</label>
-  <textarea class="form-control autosave" data-field="summary">{{ ticket.summary }}</textarea>
+  <label class="form-label">Username</label>
+  <input type="text" class="form-control autosave" data-field="username" value="{{ user.username }}" readonly>
 </div>
 
 <div class="mb-3">
-  <label class="form-label">Description</label>
-  <textarea class="form-control autosave" data-field="description" rows="5">{{ ticket.description }}</textarea>
+  <label class="form-label">Full Name</label>
+  <input type="text" class="form-control autosave" data-field="fullname" value="{{ user.fullname }}">
 </div>
 
-<!-- Reporter Dropdown -->
 <div class="mb-3">
-  <label class="form-label">Reporter</label>
-  <select class="form-select autosave" data-field="createdBy">
-    {% for user in users %}
-      <option value="{{ user.id }}" {% if ticket.createdBy == user.id %}selected{% endif %}>
-        {{ user.fullname }}
+  <label class="form-label">Email</label>
+  <input type="email" class="form-control autosave" data-field="email" value="{{ user.email }}">
+</div>
+
+<!-- Role Dropdown -->
+<div class="mb-3">
+  <label class="form-label">Role</label>
+  <select class="form-select autosave" data-field="roleid">
+    {% for role in userRoles %}
+      <option value="{{ role.id }}" {% if user.roleid == role.id %}selected{% endif %}>
+        {{ role.description }}
       </option>
     {% endfor %}
   </select>
 </div>
 
-<!-- Assignee Dropdown -->
+<!-- Created By Dropdown -->
 <div class="mb-3">
-  <label class="form-label">Assignee</label>
-  <select class="form-select autosave" data-field="assignedTo">
-    {% for user in users %}
-      <option value="{{ user.id }}" {% if ticket.assignedTo == user.id %}selected{% endif %}>
-        {{ user.fullname }}
+  <label class="form-label">Created By</label>
+  <select class="form-select autosave" data-field="createdBy" disabled aria-readonly="true">
+    {% for u in users %}
+      <option value="{{ u.id }}" {% if user.createdBy == u.id %}selected{% endif %}>
+        {{ u.fullname }}
       </option>
     {% endfor %}
   </select>
@@ -45,23 +50,26 @@ https://stackoverflow.com/questions/12330086/how-to-loop-through-selected-elemen
 <!-- Created At -->
 <div class="mb-3">
   <label class="form-label">Created At</label>
-  <input type="datetime-local" class="form-control" value="{{ ticket.createdAt.strftime('%Y-%m-%dT%H:%M') }}" readonly>
+  <input type="datetime-local" class="form-control"
+       value="{{ user.createdAt.strftime('%Y-%m-%dT%H:%M') if user.createdAt else '' }}" readonly>
 
 </div>
 
 <!-- Updated At -->
 <div class="mb-3">
   <label class="form-label">Last Updated</label>
-  <input type="datetime-local" class="form-control" data-field="updatedAt"
-         value="{{ ticket.updatedAt.strftime('%Y-%m-%dT%H:%M') }}" readonly>
+  <input type="datetime-local" class="form-control"
+       value="{{ user.updatedAt.strftime('%Y-%m-%dT%H:%M') if user.updatedAt else '' }}" readonly>
 </div>
 
 <div id="statusMessage" class="text-muted small"></div>
 
-<a href="/tickets" class="btn btn-secondary mt-3">← Back to List</a>
+<a href="/users" class="btn btn-secondary mt-3">← Back to List</a>
 
 <script>
+const msgBox = document.getElementById('statusMessage');
 document.querySelectorAll('.autosave').forEach(field => {
+  if (field.disabled) return; //no need to save readonly fields like createdAt
   const save = () => {
     fetch(location.pathname, {
       method: 'PATCH',
@@ -73,10 +81,17 @@ document.querySelectorAll('.autosave').forEach(field => {
     })
     .then(res => res.json())
     .then(data => {
-      document.getElementById('statusMessage').textContent = data.message || data.error;
+      msgBox.textContent = data.message || data.error;
+      msgBox.classList.remove('text-danger', 'text-success');
+      msgBox.classList.add(data.message ? 'text-success' : 'text-danger');
     })
+    // .then(data => {
+    //   document.getElementById('statusMessage').textContent = data.message || data.error;
+    // })
     .catch(() => {
-      document.getElementById('statusMessage').textContent = 'Failed to save.';
+      msgBox.textContent = 'Failed to save.';
+      msgBox.classList.remove('text-success');
+      msgBox.classList.add('text-danger');
     });
   };
 
