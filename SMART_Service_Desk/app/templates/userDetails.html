@@ -64,6 +64,38 @@ https://stackoverflow.com/questions/12330086/how-to-loop-through-selected-elemen
   </select>
 </div>
 
+{% if is_new_user %}
+<!-- Password Fields for Create -->
+<div class="mb-3">
+  <label class="form-label">Password</label>
+  <input name="password" type="password" class="form-control" required>
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Confirm Password</label>
+  <input name="confirm_password" type="password" class="form-control" required>
+</div>
+{% else %}
+<!-- Change Password Option for Edit -->
+<div class="form-check mb-2">
+  <input class="form-check-input" type="checkbox" id="changePasswordToggle">
+  <label class="form-check-label" for="changePasswordToggle">Change Password</label>
+</div>
+
+<div id="passwordFields" style="display: none;">
+  <div class="mb-3">
+    <label class="form-label">New Password</label>
+    <input name="password" type="password" class="form-control">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Confirm New Password</label>
+    <input name="confirm_password" type="password" class="form-control">
+  </div>
+</div>
+{% endif %}
+
+
 {% if not is_new_user %}
 <!-- Created At -->
   <div class="mb-3">
@@ -126,4 +158,10 @@ https://stackoverflow.com/questions/12330086/how-to-loop-through-selected-elemen
   });
   </script>
 {% endif %}
+<script>
+  document.getElementById('changePasswordToggle')?.addEventListener('change', function () {
+    const section = document.getElementById('passwordFields');
+    section.style.display = this.checked ? 'block' : 'none';
+  });
+</script>
 {% endblock %}

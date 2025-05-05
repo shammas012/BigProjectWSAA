@@ -2,6 +2,7 @@
 # https://stackoverflow.com/questions/58452887/how-can-i-utilize-werkzeug-securitys-check-password-hash-function-to-verify-cor
 # https://testdriven.io/tips/9901c635-2ab2-42cf-a5f0-b4f3ef0b48c3/
 # https://dev.to/goke/securing-your-flask-application-hashing-passwords-tutorial-2f0p
+# https://codingnomads.com/python-flask-what-are-hashed-passwords
 from datetime import datetime
 from . import db
 import uuid as guid
@@ -36,9 +37,11 @@ class User(db.Model):
     password_hash = db.Column(db.String(128))
 
     def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+        self.password_hash = generate_password_hash(password,method='pbkdf2:sha256')
 
     def check_password(self, password):
+        if not self.password_hash:
+            return False
         return check_password_hash(self.password_hash, password)
 
     def serializeJson(self):

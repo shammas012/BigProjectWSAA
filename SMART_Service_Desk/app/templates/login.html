@@ -1,0 +1,56 @@
+<!-- References
+    https://www.w3schools.com/JSREF/tryit.asp?filename=tryjsref_onsubmit_addeventlistener 
+    https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_event_preventdefault
+    https://stackoverflow.com/questions/57250752/access-the-access-token-property-in-localstorage
+    https://getbootstrap.com/docs/4.0/utilities/spacing/
+    -->
+    {% extends 'master.html' %}
+
+    {% block content %}
+    <h2>Login</h2>
+    
+    <div class="mx-auto" style="max-width: 400px;">
+      <form id="loginForm">
+        <div class="mb-3">
+          <label>Username</label>
+          <input name="username" type="text" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label>Password</label>
+          <input name="password" type="password" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+    
+      <div id="loginMessage" class="mt-3 text-muted small"></div>
+    </div>
+    
+    <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = this.username.value;
+      const password = this.password.value;  
+    
+      fetch('/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })  
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.access_token) {
+          localStorage.setItem('access_token', data.access_token);
+          document.getElementById('loginMessage').textContent = 'Login successful!';
+          window.location.href = '/tickets';
+        } else {
+          document.getElementById('loginMessage').textContent = data.error || 'Login failed';
+        }
+      })
+      .catch(err => {
+        document.getElementById('loginMessage').textContent = 'Something went wrong';
+        console.error(err);
+      });
+    });
+    </script>
+    {% endblock %}
+    

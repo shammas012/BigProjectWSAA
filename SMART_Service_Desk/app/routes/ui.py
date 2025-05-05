@@ -104,6 +104,7 @@ def update_user_field(user_id):
         return jsonify({"error": "Failed to update user"}), 500
     
 @bp.route('/users/new', methods=['GET', 'POST'], endpoint='register_user')
+@log_exceptions
 def register_user():
     from app.models import User, UserRole, db
     from flask import request, redirect, url_for, flash
@@ -111,6 +112,13 @@ def register_user():
     if request.method == 'POST':
         try:
             data = request.form
+            password = data.get('password')
+            confirm_password = data.get('confirm_password')
+
+            if password != confirm_password:
+                flash("Passwords do not match", "danger")
+                return redirect(request.url)
+            
             new_user = User(
                 username=data.get('username'),
                 fullname=data.get('fullname'),
@@ -118,6 +126,8 @@ def register_user():
                 roleid=data.get('roleid'),
                 createdBy=data.get('createdBy')  # if time allows implement Oauth2/JWT to get the details of logged in user.
             )
+            new_user.set_password(password)
+
             db.session.add(new_user)
             db.session.commit()
             flash(f"User {new_user.username} created successfully.", "success")

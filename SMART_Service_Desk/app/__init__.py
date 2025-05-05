@@ -22,6 +22,8 @@ jwt = JWTManager()  # <--- This is the missing piece
 
 def create_app():
     app = Flask(__name__)
+    app.config['DEBUG'] = True
+    app.config['ENV'] = 'development'
     app.config.from_object(Config)
     # debug
     #print("SQLALCHEMY_DATABASE_URI:", app.config.get('SQLALCHEMY_DATABASE_URI'))
@@ -65,6 +67,8 @@ def create_app():
     from app.routes.ui import bp as bpUi
     app.register_blueprint(bpUi)
 
+    from app.routes.auth import bp as bpAuth
+    app.register_blueprint(bpAuth)
 
     from . import models
 
