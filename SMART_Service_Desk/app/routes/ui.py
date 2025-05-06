@@ -80,7 +80,7 @@ def update_ticket_field(key):
 @bp.route('/tickets/new', methods=['GET'])
 @log_exceptions
 @jwt_required_ui
-def create_ticket_ui():
+def create_ticket():
     from app.models import Project, IssueType, User
     return render_template(
         'createTicket.html',

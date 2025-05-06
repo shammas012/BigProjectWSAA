@@ -163,5 +163,36 @@ https://stackoverflow.com/questions/12330086/how-to-loop-through-selected-elemen
     const section = document.getElementById('passwordFields');
     section.style.display = this.checked ? 'block' : 'none';
   });
+
+  const passwordInputs = document.querySelectorAll('#passwordFields input');
+
+  passwordInputs.forEach(field => {
+    field.addEventListener('blur', () => {
+      const password = document.querySelector('input[name="password"]').value;
+      const confirmPassword = document.querySelector('input[name="confirm_password"]').value;
+
+      if (!password || password !== confirmPassword) {
+        document.getElementById('statusMessage').textContent = 'Passwords do not match';
+        document.getElementById('statusMessage').classList.add('text-danger');
+        return;
+      }
+
+      fetch(location.pathname, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ field: 'password', value: password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('statusMessage').textContent = data.message || data.error;
+        document.getElementById('statusMessage').classList.remove('text-danger', 'text-success');
+        document.getElementById('statusMessage').classList.add(data.message ? 'text-success' : 'text-danger');
+      })
+      .catch(() => {
+        document.getElementById('statusMessage').textContent = 'Failed to update password.';
+        document.getElementById('statusMessage').classList.add('text-danger');
+      });
+    });
+  });
 </script>
 {% endblock %}

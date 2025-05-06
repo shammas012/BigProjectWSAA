@@ -38,19 +38,6 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  //bearer token writing to console from master.html, but not appearing in the request header. something to fix in phase 2.
-  authFetch('/api/tickets')
-    .then(res => res.json())
-    .then(data => {
-      console.log("API Response:", data);
-    //   document.getElementById('ticketList').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>'; // for debugging only
-    })
-    .catch(err => {
-      console.error("API Error:", err);
-      document.getElementById('ticketList').textContent = 'Error loading tickets';
-    });
-});
+
 </script>
 {% endblock %}
