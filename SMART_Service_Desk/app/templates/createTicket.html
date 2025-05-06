@@ -1,0 +1,107 @@
+{% extends 'master.html' %}
+
+{% block content %}
+<h2>Create Ticket</h2>
+
+<form id="createTicketForm">
+  <!-- Summary -->
+  <div class="mb-3">
+    <label class="form-label">Summary</label>
+    <textarea class="form-control" name="summary" required></textarea>
+  </div>
+
+  <!-- Description -->
+  <div class="mb-3">
+    <label class="form-label">Description</label>
+    <textarea class="form-control" name="description" rows="5" required></textarea>
+  </div>
+
+  <!-- Reporter Dropdown -->
+  <div class="mb-3">
+    <label class="form-label">Reporter</label>
+    <select name="createdBy" class="form-select" required>
+      {% for user in users %}
+        <option value="{{ user.id }}" {% if user.id == current_user.id %}selected{% endif %}>
+          {{ user.fullname }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- Assignee Dropdown -->
+  <div class="mb-3">
+    <label class="form-label">Assignee</label>
+    <select name="assignedTo" class="form-select">
+      <option value="">-- Unassigned --</option>
+      {% for user in users %}
+        <option value="{{ user.id }}">{{ user.fullname }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- Project Dropdown -->
+  <div class="mb-3">
+    <label class="form-label">Project</label>
+    <select name="projectId" class="form-select" required>
+      {% for project in projects %}
+        <option value="{{ project.id }}">{{ project.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- Issue Type -->
+  <div class="mb-3">
+    <label class="form-label">Issue Type</label>
+    <select name="issueTypeId" class="form-select" required>
+      {% for issue in issueTypes %}
+        <option value="{{ issue.id }}">{{ issue.description }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- Submit Button -->
+  <button type="submit" class="btn btn-primary mt-3">Create Ticket</button>
+</form>
+
+<div id="statusMessage" class="mt-3 text-muted small"></div>
+<a href="/tickets" class="btn btn-secondary mt-3">← Back to Tickets</a>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('createTicketForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const form = e.target;
+
+  const newTicket = {
+    summary: form.summary.value,
+    description: form.description.value,
+    createdBy: form.createdBy.value,
+    assignedTo: form.assignedTo.value || null,
+    projectId: form.projectId.value,
+    issueTypeId: form.issueTypeId.value
+  };
+
+  fetch('/api/tickets', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(newTicket)
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log("Ticket creation response:", data);
+    if (data.key) {
+        window.location.href = `/ticketDetails/${data.key}`;
+    } else {
+        document.getElementById('statusMessage').textContent = data.error || 'Ticket creation failed.';
+    }
+})
+  .catch(err => {
+    console.error(err);
+    document.getElementById('statusMessage').textContent = 'Error submitting ticket.';
+  });
+});
+</script>
+{% endblock %}

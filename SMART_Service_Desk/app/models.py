@@ -158,6 +158,8 @@ class TicketHistory(db.Model):
     toStatus = db.Column(db.String(100))
     changedBy = db.Column(db.String(100), db.ForeignKey('users.id'))
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    comment = db.Column(db.String(500), nullable=True)
+    field_changed = db.Column(db.String(100), nullable=True)
 
     def serializeJson(self):
             return {
@@ -168,3 +170,4 @@ class TicketHistory(db.Model):
                 'changedBy': self.changedBy,
                 'timestamp': self.timestamp.isoformat() if self.timestamp else None
             }
+    

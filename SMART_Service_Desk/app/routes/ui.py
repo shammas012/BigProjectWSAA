@@ -77,6 +77,18 @@ def update_ticket_field(key):
         current_app.logger.error(f"Failed to update user: {str(ex)}")
         return {"error": f"Failed to update ticket: {str(ex)}"}, 500
 
+@bp.route('/tickets/new', methods=['GET'])
+@log_exceptions
+@jwt_required_ui
+def create_ticket_ui():
+    from app.models import Project, IssueType, User
+    return render_template(
+        'createTicket.html',
+        users=User.query.order_by(User.fullname).all(),
+        projects=Project.query.order_by(Project.name).all(),
+        issueTypes=IssueType.query.order_by(IssueType.description).all()
+    )
+
 
 @bp.route('/users')
 @log_exceptions

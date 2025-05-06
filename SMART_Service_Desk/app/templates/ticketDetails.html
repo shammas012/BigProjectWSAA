@@ -42,6 +42,18 @@ https://stackoverflow.com/questions/12330086/how-to-loop-through-selected-elemen
   </select>
 </div>
 
+<!-- Status Dropdown -->
+<div class="mb-3">
+  <label class="form-label">Status</label>
+  <select class="form-select autosave" data-field="statusId">
+    {% for status in statuses %}
+      <option value="{{ status.id }}" {% if ticket.statusId == status.id %}selected{% endif %}>
+        {{ status.description }}
+      </option>
+    {% endfor %}
+  </select>
+</div>
+
 <!-- Created At -->
 <div class="mb-3">
   <label class="form-label">Created At</label>
