@@ -2,10 +2,14 @@ from datetime import datetime
 from flask import Blueprint, current_app, jsonify, render_template, request
 from app.models import Ticket, User, UserRole, db
 from app.routes.utils import log_exceptions
+from app.routes.auth_utils import jwt_required_ui
+
 
 bp = Blueprint('ui', __name__)
 
 @bp.route('/home')
+@log_exceptions
+@jwt_required_ui
 def dashboard():
     total = Ticket.query.count()
     return render_template('home.html', total=total)
@@ -13,6 +17,7 @@ def dashboard():
 
 @bp.route('/tickets')
 @log_exceptions
+@jwt_required_ui
 def view_tickets():
     page = int(request.args.get('page', 1))
     per_page = 50
@@ -25,6 +30,7 @@ def view_tickets():
 
 @bp.route('/tickets/<key>')
 @log_exceptions
+@jwt_required_ui
 def ticket_detail(key):
     ticket = Ticket.query.filter_by(key=key).first_or_404()
     users = User.query.order_by(User.fullname).all()
@@ -32,6 +38,7 @@ def ticket_detail(key):
 
 @bp.route('/users/<user_id>', methods=['GET'])
 @log_exceptions
+@jwt_required_ui
 def view_user(user_id):
     user = User.query.get_or_404(user_id)
     userRoles = UserRole.query.order_by(UserRole.description).all()
@@ -41,12 +48,14 @@ def view_user(user_id):
 
 
 @bp.route('/debug-users')
+@jwt_required_ui
 def debug_user_ids():
     users = User.query.all()
     return "<br>".join([f"id: {u.id}, fullname: {u.fullname}, username: {u.username}" for u in users])
 
 
 @bp.route('/tickets/<key>', methods=['PATCH'])
+@jwt_required_ui
 @log_exceptions
 def update_ticket_field(key):
     data = request.get_json()
@@ -70,6 +79,7 @@ def update_ticket_field(key):
 
 @bp.route('/users')
 @log_exceptions
+@jwt_required_ui
 def view_users():
     page = int(request.args.get('page', 1))
     per_page = 50
@@ -83,6 +93,7 @@ def view_users():
 
 @bp.route('/users/<user_id>', methods=['PATCH'])
 @log_exceptions
+@jwt_required_ui
 def update_user_field(user_id):
     data = request.get_json()
     field = data.get("field")
@@ -105,6 +116,7 @@ def update_user_field(user_id):
     
 @bp.route('/users/new', methods=['GET', 'POST'], endpoint='register_user')
 @log_exceptions
+@jwt_required_ui
 def register_user():
     from app.models import User, UserRole, db
     from flask import request, redirect, url_for, flash

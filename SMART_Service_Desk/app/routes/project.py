@@ -10,13 +10,13 @@ from flask import Blueprint, current_app, jsonify, request
 from app.routes.utils import log_exceptions
 from app.models import db, Project
 
-
 #########################Project##############################
 
 bp = Blueprint('projects', __name__, url_prefix='/api')
 
 # decorator / attribute for /api/projects GET
 @bp.route('/projects', methods=['GET'])
+@log_exceptions
 def getIssueTypeList():
     projects = Project.query.all()
     return jsonify([issuetype.serializeJson() for issuetype in projects])

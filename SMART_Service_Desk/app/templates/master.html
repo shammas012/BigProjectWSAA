@@ -47,6 +47,15 @@
     }
     </script>
 
+    <script>
+        const token = localStorage.getItem('access_token');
+    
+        // If not on login page and no token, redirect to login
+        if (!token && !window.location.pathname.includes('/login')) {
+        window.location.href = '/auth/login';
+        }
+    </script>
+
     {% block scripts %}{% endblock %}
 </body>
 </html>

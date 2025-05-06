@@ -9,11 +9,12 @@
 # https://stackoverflow.com/questions/63750482/flask-check-password-always-return-false
 
 
-from flask import Blueprint, request, jsonify, current_app, render_template
-from flask_jwt_extended import create_access_token
+from flask import Blueprint, request, jsonify, current_app, render_template, make_response
 from app.models import User
 from app import db
 from app.routes.utils import log_exceptions
+from flask_jwt_extended import create_access_token
+
 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -37,8 +38,16 @@ def login():
             return jsonify({"error": "Invalid username or password"}), 401
 
         access_token = create_access_token(identity=user.id)
+        resp = make_response(jsonify({
+            "message": "Login successful",
+            "access_token": access_token
+            }))
+        resp.set_cookie('access_token_cookie', access_token, httponly=True)
         current_app.logger.info(f"Login successful for user: {username}")
-        return jsonify(access_token=access_token), 200
+        return resp
+
+        # current_app.logger.info(f"Login successful for user: {username}")
+        # return jsonify(access_token=access_token), 200
 
     except Exception as ex:
         current_app.logger.error(f"Exception in login: {str(ex)}")

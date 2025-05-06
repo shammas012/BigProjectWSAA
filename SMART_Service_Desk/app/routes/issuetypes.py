@@ -25,6 +25,7 @@ def getIssueTypeList():
 # decorator / attribute for /api/issuetypes POST
 @bp.route('/issuetypes', methods=['POST'])
 @log_exceptions
+
 def createIssueType():
     try:
         data = request.get_json()
