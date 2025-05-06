@@ -38,3 +38,6 @@
 2025-05-06 21:13:32,076 INFO: Login successful for user: NuwaibS [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/auth.py:47]
 2025-05-06 21:18:07,237 WARNING: Login failed for user: NuwaibS (incorrect password) [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/auth.py:38]
 2025-05-06 21:18:15,774 INFO: Login successful for user: NuwaibS [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/auth.py:47]
+2025-05-06 21:35:49,656 INFO: Login successful for user: NuwaibS [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/auth.py:47]
+2025-05-06 21:36:15,233 INFO: Updated user Shammasm: password [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py:130]
+2025-05-06 21:36:38,872 INFO: Login successful for user: shammasm [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/auth.py:47]

@@ -104,11 +104,12 @@ def view_users():
     return render_template('users.html', users=users, total=total, offset=offset, page=page, per_page=per_page)
 
 
+
 @bp.route('/users/<user_id>', methods=['PATCH'])
 @log_exceptions
 @jwt_required_ui
 def update_user_field(user_id):
-    data = request.get_json()
+    data  = request.get_json()
     field = data.get("field")
     value = data.get("value")
 
@@ -117,11 +118,18 @@ def update_user_field(user_id):
         return jsonify({"error": "User not found"}), 404
 
     try:
-        setattr(user, field, value)
-        user.updatedAt = datetime.utcnow()  # update the timestamp automatically
+        if field == "password":
+            # hash the password before saving to users table
+            user.set_password(value)
+        else:
+            setattr(user, field, value)
+
+        user.updatedAt = datetime.utcnow()
         db.session.commit()
-        current_app.logger.info(f"Updated user {user.username}: {field} = {value}")
+
+        current_app.logger.info(f"Updated user {user.username}: {field}")
         return jsonify({"message": f"{field} updated successfully"}), 200
+
     except Exception as ex:
         db.session.rollback()
         current_app.logger.error(f"Failed to update user: {str(ex)}")
