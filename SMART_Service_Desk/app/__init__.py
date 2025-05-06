@@ -70,6 +70,17 @@ def create_app():
     from app.routes.auth import bp as bpAuth
     app.register_blueprint(bpAuth)
 
+    @app.context_processor
+    def enable_user():
+        from flask_jwt_extended import get_jwt_identity
+        from app.models import User
+        try:
+            user_id = get_jwt_identity()
+            user = db.session.get(User, user_id)
+            return dict(current_user=user)
+        except Exception:
+            return dict(current_user=None)
+
     from . import models
 
     #move the below routing later to a common routes file..

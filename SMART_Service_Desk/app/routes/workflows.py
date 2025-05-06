@@ -9,6 +9,7 @@
 from flask import Blueprint, jsonify, request, current_app
 from app.routes.utils import log_exceptions
 from app.models import db, WorkflowStatus,WorkflowTransition
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
 #########################statuses##############################
@@ -17,6 +18,7 @@ bp = Blueprint('workflows', __name__, url_prefix='/api')
 
 # decorator / attribute for /api/statuses GET
 @bp.route('/statuses', methods=['GET'])
+@jwt_required()
 @log_exceptions
 def getWorkflowStatuses():
     statuses = WorkflowStatus.query.all()
@@ -25,6 +27,7 @@ def getWorkflowStatuses():
 # decorator / attribute for /api/statuses POST
 @bp.route('/statuses', methods=['POST'])
 @log_exceptions
+@jwt_required()
 def createWorkflowStatus():
     try:
         data = request.get_json()
@@ -54,12 +57,15 @@ def createWorkflowStatus():
 
 @bp.route('/transitions', methods=['GET'])
 @log_exceptions
+@jwt_required()
 def getWorkflowTransitions():
     transitions = WorkflowTransition.query.all()
     return jsonify([transition.serializeJson() for transition in transitions])
 
-@log_exceptions
+
 @bp.route('/transitions', methods=['POST'])
+@jwt_required()
+@log_exceptions
 def createWorkflowTransition():
     try:
         data = request.get_json()

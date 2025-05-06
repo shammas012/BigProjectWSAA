@@ -9,6 +9,8 @@
 from flask import Blueprint, current_app, jsonify, request
 from app.routes.utils import log_exceptions
 from app.models import db, Project
+from flask_jwt_extended import jwt_required, get_jwt_identity
+
 
 #########################Project##############################
 
@@ -17,6 +19,7 @@ bp = Blueprint('projects', __name__, url_prefix='/api')
 # decorator / attribute for /api/projects GET
 @bp.route('/projects', methods=['GET'])
 @log_exceptions
+@jwt_required()
 def getIssueTypeList():
     projects = Project.query.all()
     return jsonify([issuetype.serializeJson() for issuetype in projects])
@@ -25,6 +28,7 @@ def getIssueTypeList():
 # decorator / attribute for /api/projects POST
 @bp.route('/projects', methods=['POST'])
 @log_exceptions
+@jwt_required()
 def createIssueType():
     try:
         data = request.get_json()

@@ -11,7 +11,7 @@
 from flask import Blueprint, jsonify, request, current_app
 from app.models import db, User, UserRole
 from app.routes.utils import log_exceptions
-
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 #########################User##############################
 
@@ -19,7 +19,7 @@ bp = Blueprint('users', __name__, url_prefix='/api')
 
 # decorator / attribute for /api/users GET
 @bp.route('/users', methods=['GET'])
-
+@jwt_required()
 @log_exceptions
 def getUserList():
     users = User.query.all()
@@ -28,6 +28,7 @@ def getUserList():
 # decorator / attribute for /api/users POST
 @bp.route('/users', methods=['POST'])
 @log_exceptions
+@jwt_required()
 def createUser():
     try:
         data = request.get_json()
@@ -57,7 +58,8 @@ def createUser():
 
 # decorator / attribute for /api/users/<user_id> PUT
 @bp.route('/users/<user_id>', methods=['PUT'])
-# @log_exceptions
+@log_exceptions
+@jwt_required()
 def updateUser(user_id):
     try:
         print(f"PUT /users/{user_id} was called")
@@ -95,6 +97,7 @@ def updateUser(user_id):
 
 @bp.route('/roles', methods=['GET'])
 @log_exceptions
+@jwt_required()
 def getUserRoles():
     roles = UserRole.query.all()
     return jsonify([r.serialize() for r in roles])

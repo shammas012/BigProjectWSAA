@@ -12,7 +12,7 @@ from datetime import datetime
 from flask import Blueprint, jsonify, request, current_app
 from app.models import TicketHistory, db, Ticket, Project, WorkflowStatus
 from app.routes.utils import log_exceptions
-
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 #########################ticket##############################
 
@@ -20,6 +20,7 @@ bp = Blueprint('tickets', __name__, url_prefix='/api')
 
 # decorator / attribute for /api/tickets GET
 @bp.route('/tickets', methods=['GET'])
+@jwt_required()
 @log_exceptions
 def getTicketList():
     tickets = Ticket.query.all()
@@ -29,6 +30,7 @@ def getTicketList():
 # decorator / attribute for /api/tickets POST
 @bp.route('/tickets', methods=['POST'])
 @log_exceptions
+@jwt_required()
 def createTicket():
     try:
         data = request.get_json()
@@ -84,6 +86,7 @@ def createTicket():
 # GET /api/tickets/<key>
 @bp.route('/tickets/<key>', methods=['GET'])
 @log_exceptions
+@jwt_required()
 def getTicketByKey(key):
     try:
         ticket = Ticket.query.get_or_404(key)
@@ -106,6 +109,7 @@ def getTicketByKey(key):
 # PUT /api/tickets/<key>
 @bp.route('/tickets/<key>', methods=['PUT'])
 @log_exceptions
+@jwt_required()
 def updateTicket(key):
     try:
         ticket = Ticket.query.get_or_404(key)
@@ -131,7 +135,7 @@ def updateTicket(key):
             changed = True
 
         if 'issueTypeId' in data and data['issueTypeId'] != ticket.issueTypeId:
-            ticket.statusId = data['issueTypeId']
+            ticket.issueTypeId = data['issueTypeId']
             changed = True
 
         if changed:

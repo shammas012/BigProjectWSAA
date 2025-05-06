@@ -26,31 +26,32 @@
     </div>
     
     <script>
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const username = this.username.value;
-      const password = this.password.value;  
-    
-      fetch('/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })  
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.access_token) {
-          localStorage.setItem('access_token', data.access_token);
-          document.getElementById('loginMessage').textContent = 'Login successful!';
-          window.location.href = '/tickets';
-        } else {
-          document.getElementById('loginMessage').textContent = data.error || 'Login failed';
-        }
-      })
-      .catch(err => {
-        document.getElementById('loginMessage').textContent = 'Something went wrong';
-        console.error(err);
+      document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const username = this.username.value;
+        const password = this.password.value;
+      
+        fetch('/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        })
+        .then(res => {
+          if (res.ok) {
+            document.getElementById('loginMessage').textContent = 'Login successful!';
+            window.location.href = '/tickets'; 
+          } else {
+            return res.json().then(data => {
+              document.getElementById('loginMessage').textContent = data.error || 'Login failed';
+            });
+          }
+        })
+        .catch(err => {
+          document.getElementById('loginMessage').textContent = 'Something went wrong';
+          console.error(err);
+        });
       });
-    });
-    </script>
+      </script>
+      
     {% endblock %}
     

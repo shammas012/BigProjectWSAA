@@ -7,9 +7,10 @@
 # https://flask.palletsprojects.com/en/latest/logging/
 # https://docs.sqlalchemy.org/en/20/orm/session_basics.html
 # https://stackoverflow.com/questions/63750482/flask-check-password-always-return-false
+# https://realpython.com/token-based-authentication-with-flask/#logout-route-handler
 
 
-from flask import Blueprint, request, jsonify, current_app, render_template, make_response
+from flask import Blueprint, redirect, request, jsonify, current_app, render_template, make_response, url_for
 from app.models import User
 from app import db
 from app.routes.utils import log_exceptions
@@ -57,3 +58,10 @@ def login():
 @log_exceptions
 def login_form():
     return render_template('login.html')
+
+@bp.route('/logout', methods=['POST'])
+@log_exceptions
+def logout():
+    resp = make_response(redirect(url_for('auth.login_form')))
+    resp.delete_cookie('access_token_cookie')
+    return resp

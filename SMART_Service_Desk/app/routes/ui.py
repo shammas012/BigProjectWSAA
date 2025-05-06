@@ -48,6 +48,7 @@ def view_user(user_id):
 
 
 @bp.route('/debug-users')
+@log_exceptions
 @jwt_required_ui
 def debug_user_ids():
     users = User.query.all()
