@@ -47,9 +47,6 @@ def login():
         current_app.logger.info(f"Login successful for user: {username}")
         return resp
 
-        # current_app.logger.info(f"Login successful for user: {username}")
-        # return jsonify(access_token=access_token), 200
-
     except Exception as ex:
         current_app.logger.error(f"Exception in login: {str(ex)}")
         return jsonify({"error": "Internal Server Error"}), 500
