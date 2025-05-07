@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import Blueprint, current_app, jsonify, render_template, request
-from app.models import Ticket, User, UserRole, db
+from app.models import Ticket, TicketComment, TicketHistory, User, UserRole, WorkflowStatus, db
 from app.routes.utils import log_exceptions
 from app.routes.auth_utils import jwt_required_ui
 
@@ -24,6 +24,7 @@ def view_tickets():
     offset = (page - 1) * per_page
 
     tickets = Ticket.query.order_by(Ticket.createdAt.desc()).offset(offset).limit(per_page).all()
+
     total = Ticket.query.count()
 
     return render_template('tickets.html', tickets=tickets, total=total, offset=offset, page=page, per_page=per_page)
@@ -32,9 +33,26 @@ def view_tickets():
 @log_exceptions
 @jwt_required_ui
 def ticket_detail(key):
-    ticket = Ticket.query.filter_by(key=key).first_or_404()
-    users = User.query.order_by(User.fullname).all()
-    return render_template('ticketDetails.html', ticket=ticket, users = users)
+    ticket   = Ticket.query.filter_by(key=key).first_or_404()
+    users    = User.query.order_by(User.fullname).all()
+    statuses = WorkflowStatus.query.order_by(WorkflowStatus.description).all()
+    comments = (TicketComment.query
+                        .filter_by(ticketKey=key)
+                        .order_by(TicketComment.timestamp.desc())
+                        .all())
+    history  = (TicketHistory.query
+                        .filter_by(ticketKey=key)
+                        .order_by(TicketHistory.timestamp.desc())
+                        .all())
+
+    return render_template(
+        'ticketDetails.html',
+        ticket=ticket,
+        users=users,
+        statuses=statuses,
+        comments=comments,
+        history=history
+    )
 
 @bp.route('/users/<user_id>', methods=['GET'])
 @log_exceptions

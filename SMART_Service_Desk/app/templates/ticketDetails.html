@@ -1,7 +1,7 @@
 <!--
 https://getbootstrap.com/docs/5.0/forms/form-control/
 https://stackoverflow.com/questions/12330086/how-to-loop-through-selected-elements-with-document-queryselectorall
-
+https://getbootstrap.com/docs/5.0/components/navs-tabs/
 -->
 {% extends 'master.html' %}
 
@@ -70,7 +70,23 @@ https://stackoverflow.com/questions/12330086/how-to-loop-through-selected-elemen
 
 <div id="statusMessage" class="text-muted small"></div>
 
+<ul class="nav nav-tabs" id="ticketTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="comments-tab" data-bs-toggle="tab"
+            data-bs-target="#comments" type="button" role="tab">
+      Comments
+    </button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="history-tab" data-bs-toggle="tab"
+            data-bs-target="#history" type="button" role="tab">
+      History
+    </button>
+  </li>
+</ul>
+
 <a href="/tickets" class="btn btn-secondary mt-3">← Back to List</a>
+
 
 <script>
 document.querySelectorAll('.autosave').forEach(field => {

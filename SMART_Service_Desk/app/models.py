@@ -171,3 +171,20 @@ class TicketHistory(db.Model):
                 'timestamp': self.timestamp.isoformat() if self.timestamp else None
             }
     
+class TicketComment(db.Model):
+    __tablename__ = "ticket_comments"
+
+    id = db.Column(db.String(100),primary_key=True,default=generateGuid)
+    ticketKey = db.Column(db.String(100),db.ForeignKey('tickets.key'),nullable=False)
+    authorId = db.Column(db.String(100),db.ForeignKey('users.id'),nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime,default=datetime.utcnow,nullable=False)
+
+    def serializeJson(self):
+        return {
+            'id': self.id,
+            'ticketKey': self.ticketKey,
+            'authorId': self.authorId,
+            'content': self.content,
+            'timestamp': self.timestamp.isoformat()
+        }
