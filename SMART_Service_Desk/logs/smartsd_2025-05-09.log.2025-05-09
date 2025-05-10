@@ -1,0 +1,6 @@
+2025-05-09 01:09:26,591 INFO: Login successful for user: shammasm [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/auth.py:47]
+2025-05-09 01:26:00,252 INFO: Login successful for user: shammasm [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/auth.py:47]
+2025-05-09 01:32:19,056 ERROR: Failed to add comment: 'comment' is an invalid keyword argument for TicketComment [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/ui.py:246]
+2025-05-09 01:41:11,273 INFO: Login successful for user: shammasm [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/auth.py:47]
+2025-05-09 02:01:26,690 INFO: Login successful for user: shammasm [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/auth.py:47]
+2025-05-09 02:18:51,669 INFO: Login successful for user: shammasm [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART SD/BigProjectWSAA/SMART_Service_Desk/app/routes/auth.py:47]

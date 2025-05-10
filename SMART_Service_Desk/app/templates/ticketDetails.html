@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const time = new Date(c.timestamp).toLocaleString();
           li.className = 'list-group-item';
           li.textContent = `${c.content} — by ${c.author} at ${time}`;
-          list.prepend(li);
+          list.appendChild(li); // comments already sorted by time desc in the backend.
         });
       });
   };
