@@ -3,6 +3,8 @@ from flask import Blueprint, current_app, jsonify, render_template, request
 from app.models import Ticket, TicketComment, TicketHistory, User, UserRole, WorkflowStatus, db
 from app.routes.utils import log_exceptions
 from app.routes.auth_utils import jwt_required_ui
+from flask_jwt_extended import get_jwt_identity
+
 
 
 bp = Blueprint('ui', __name__)
@@ -195,4 +197,51 @@ def register_user():
             users=User.query.all()
     )
 
+@bp.route('/tickets/<key>/comments', methods=['POST'])
+@log_exceptions
+@jwt_required_ui
+def add_ticket_comment(key):
 
+    data = request.get_json()
+    content = data.get('comment', '').strip()
+
+    if not content:
+        return jsonify({"error": "Comment cannot be empty."}), 400
+
+    user_id = get_jwt_identity()
+    if not user_id:
+        return jsonify({"error": "User not authenticated."}), 401
+
+    try:
+        new_comment = TicketComment(
+            ticketKey=key,
+            authorId=user_id,
+            content=content,
+            timestamp=datetime.utcnow()
+        )
+        db.session.add(new_comment)
+        db.session.commit()
+        return jsonify({"message": "Comment added successfully."}), 201
+
+    except Exception as ex:
+        db.session.rollback()
+        current_app.logger.error(f"Failed to add comment: {str(ex)}")
+        return jsonify({"error": "Failed to add comment"}), 500
+
+@bp.route('/tickets/<key>/comments', methods=['GET'])
+@log_exceptions
+@jwt_required_ui
+def get_ticket_comments(key):
+    comments = (TicketComment.query
+                .filter_by(ticketKey=key)
+                .order_by(TicketComment.timestamp.desc())
+                .all())
+    
+    result = [
+        {
+            "content": c.content,
+            "timestamp": c.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
+            "author": User.query.get(c.authorId).fullname if c.authorId else "Unknown"
+        } for c in comments
+    ]
+    return jsonify(result), 200

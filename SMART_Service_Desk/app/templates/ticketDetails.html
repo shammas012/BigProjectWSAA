@@ -70,23 +70,47 @@ https://getbootstrap.com/docs/5.0/components/navs-tabs/
 
 <div id="statusMessage" class="text-muted small"></div>
 
-<ul class="nav nav-tabs" id="ticketTab" role="tablist">
+<div class="tab-content" id="ticketTabContent">
+
+<!-- Tabs -->
+<ul class="nav nav-tabs mt-4" id="ticketTab" role="tablist">
   <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="comments-tab" data-bs-toggle="tab"
-            data-bs-target="#comments" type="button" role="tab">
-      Comments
+    <button class="nav-link active" id="history-tab" data-bs-toggle="tab"
+            data-bs-target="#history" type="button" role="tab" aria-controls="history" aria-selected="true">
+      History
     </button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="history-tab" data-bs-toggle="tab"
-            data-bs-target="#history" type="button" role="tab">
-      History
+    <button class="nav-link" id="comments-tab" data-bs-toggle="tab"
+            data-bs-target="#comments" type="button" role="tab" aria-controls="comments" aria-selected="false">
+      Comments
     </button>
   </li>
 </ul>
 
-<a href="/tickets" class="btn btn-secondary mt-3">← Back to List</a>
+<!-- Tab Content -->
+<div class="tab-content border border-top-0 p-3" id="ticketTabContent">
 
+  <!-- History -->
+  <div class="tab-pane fade show active" id="history" role="tabpanel" aria-labelledby="history-tab">
+    <ul id="historyList" class="list-group mt-3"></ul>
+  </div>
+
+  <!-- Comments -->
+  <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+    <form id="commentForm" class="mb-3">
+      <div class="form-group">
+        <label for="newComment">Add Comment:</label>
+        <textarea id="newComment" class="form-control" rows="3" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary mt-2">Submit</button>
+    </form>
+    <ul id="commentsList" class="list-group mt-3"></ul>
+  </div>
+
+</div>
+
+<a href="/tickets" class="btn btn-secondary mt-3">← Back to List</a>
 
 <script>
 document.querySelectorAll('.autosave').forEach(field => {
@@ -111,5 +135,57 @@ document.querySelectorAll('.autosave').forEach(field => {
   field.addEventListener('blur', save);
   field.addEventListener('change', save);  // for dropdowns
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const ticketKey = "{{ ticket.key }}";
+
+  const loadComments = () => {
+    fetch(`/tickets/${ticketKey}/comments`)
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById('commentsList');
+        list.innerHTML = '';
+        data.forEach(c => {
+          const li = document.createElement('li');
+          const time = new Date(c.timestamp).toLocaleString();
+          li.className = 'list-group-item';
+          li.textContent = `${c.content} — by ${c.author} at ${time}`;
+          list.prepend(li);
+        });
+      });
+  };
+
+  const submitComment = () => {
+    const input = document.getElementById('newComment');
+    const comment = input.value.trim();
+    if (!comment) return;
+
+    fetch(`/tickets/${ticketKey}/comments`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ comment })
+    })
+    .then(res => {
+      if (res.ok) {
+        input.value = '';
+        loadComments();
+      } else {
+        res.json().then(data => {
+          console.error("Failed to submit:", data);
+          alert(data.error || "Failed to save comment.");
+        });
+      }
+    })
+  };
+
+  document.getElementById('commentForm').addEventListener('submit', e => {
+    e.preventDefault();
+    submitComment();
+  });
+
+  document.getElementById('comments-tab').addEventListener('click', loadComments);
+});
+
+
 </script>
 {% endblock %}
