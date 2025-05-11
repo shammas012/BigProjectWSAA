@@ -86,10 +86,41 @@ def update_ticket_field(key):
     ticket = Ticket.query.filter_by(key=key).first()
     if not ticket:
         return {"error": "Ticket not found"}, 404
+    old_value = getattr(ticket, field, None)
+    if str(old_value) == str(value):
+        return {"message": "No change made."}, 200
 
     try:
         setattr(ticket, field, value)
         ticket.updatedAt = db.func.now() # update the timestamp automatically
+
+        def Get_Description(field, val):
+            if not val:
+                return None
+            if field == 'statusId':
+                status = WorkflowStatus.query.get(val)
+                return status.description if status else val
+            if field in ('createdBy', 'assignedTo'):
+                user = User.query.get(val)
+                return user.fullname if user else val
+            return val 
+
+        description_old = Get_Description(field, old_value)
+        description_new = Get_Description(field, value)
+
+        user_id = get_jwt_identity()
+        new_history = TicketHistory(
+            ticketKey=key,
+            fromStatus=str(description_old),
+            toStatus=str(description_new),
+            changedBy=user_id,
+            timestamp=datetime.utcnow(),
+            field_changed=field
+        )
+        db.session.add(new_history)
+
+        db.session.commit()
+        return {"message": f"{field} updated"}, 200
         db.session.commit()
         return {"message": f"{field} updated"}, 200
     except Exception as ex:
@@ -122,7 +153,6 @@ def view_users():
     total = User.query.count()
 
     return render_template('users.html', users=users, total=total, offset=offset, page=page, per_page=per_page)
-
 
 
 @bp.route('/users/<user_id>', methods=['PATCH'])
