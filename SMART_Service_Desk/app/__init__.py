@@ -14,7 +14,9 @@ import os, logging
 from flask_migrate import Migrate
 from .config import Config
 from flask_jwt_extended import JWTManager
+from dotenv import load_dotenv
 
+load_dotenv()
 
 db = SQLAlchemy()
 migrate = Migrate() # Added to fix db init issues
