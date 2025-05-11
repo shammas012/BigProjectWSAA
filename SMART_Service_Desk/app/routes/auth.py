@@ -11,9 +11,9 @@
 
 
 from flask import Blueprint, redirect, request, jsonify, current_app, render_template, make_response, url_for
-from app.models import User
-from app import db
-from app.routes.utils import log_exceptions
+from SMART_Service_Desk.app.models import User
+from SMART_Service_Desk.app import db
+from SMART_Service_Desk.app.routes.utils import log_exceptions
 from flask_jwt_extended import create_access_token
 
 

@@ -1,4 +1,4 @@
-from app import create_app, db, migrate
+from SMART_Service_Desk.app import create_app, db, migrate
 
 flask_app = create_app()
 

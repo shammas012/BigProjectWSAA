@@ -12,9 +12,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os, logging
 from flask_migrate import Migrate
-from .config import Config
+
 from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
+
+from SMART_Service_Desk.config import Config
 
 load_dotenv()
 
@@ -51,31 +53,31 @@ def create_app():
     app.logger.setLevel(logging.INFO)
 
     # register blueprint here
-    from app.routes.users import bp as bpUsers
+    from SMART_Service_Desk.app.routes.users import bp as bpUsers
     app.register_blueprint(bpUsers)
 
-    from app.routes.issuetypes import bp as bpIssueTypes
+    from SMART_Service_Desk.app.routes.issuetypes import bp as bpIssueTypes
     app.register_blueprint(bpIssueTypes)
 
-    from app.routes.project import bp as bpProjects
+    from SMART_Service_Desk.app.routes.project import bp as bpProjects
     app.register_blueprint(bpProjects)
 
-    from app.routes.tickets import bp as bpTickets
+    from SMART_Service_Desk.app.routes.tickets import bp as bpTickets
     app.register_blueprint(bpTickets)
 
-    from app.routes.workflows import bp as bpWorkflows
+    from SMART_Service_Desk.app.routes.workflows import bp as bpWorkflows
     app.register_blueprint(bpWorkflows)
 
-    from app.routes.ui import bp as bpUi
+    from SMART_Service_Desk.app.routes.ui import bp as bpUi
     app.register_blueprint(bpUi)
 
-    from app.routes.auth import bp as bpAuth
+    from SMART_Service_Desk.app.routes.auth import bp as bpAuth
     app.register_blueprint(bpAuth)
 
     @app.context_processor
     def enable_user():
         from flask_jwt_extended import get_jwt_identity
-        from app.models import User
+        from SMART_Service_Desk.app.models import User
         try:
             user_id = get_jwt_identity()
             user = db.session.get(User, user_id)

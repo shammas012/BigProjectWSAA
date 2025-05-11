@@ -1,8 +1,8 @@
 from datetime import datetime
 from flask import Blueprint, current_app, jsonify, render_template, request
-from app.models import Ticket, TicketComment, TicketHistory, User, UserRole, WorkflowStatus, db
-from app.routes.utils import log_exceptions
-from app.routes.auth_utils import jwt_required_ui
+from SMART_Service_Desk.app.models import Ticket, TicketComment, TicketHistory, User, UserRole, WorkflowStatus, db
+from SMART_Service_Desk.app.routes.utils import log_exceptions
+from SMART_Service_Desk.app.routes.auth_utils import jwt_required_ui
 from flask_jwt_extended import get_jwt_identity
 
 
@@ -132,7 +132,7 @@ def update_ticket_field(key):
 @log_exceptions
 @jwt_required_ui
 def create_ticket():
-    from app.models import Project, IssueType, User
+    from SMART_Service_Desk.app.models import Project, IssueType, User
     return render_template(
         'createTicket.html',
         users=User.query.order_by(User.fullname).all(),
@@ -189,7 +189,7 @@ def update_user_field(user_id):
 @log_exceptions
 @jwt_required_ui
 def register_user():
-    from app.models import User, UserRole, db
+    from SMART_Service_Desk.app.models import User, UserRole, db
     from flask import request, redirect, url_for, flash
 
     if request.method == 'POST':

@@ -10,8 +10,8 @@
 
 from datetime import datetime
 from flask import Blueprint, jsonify, request, current_app
-from app.models import TicketHistory, db, Ticket, Project, WorkflowStatus
-from app.routes.utils import log_exceptions
+from SMART_Service_Desk.app.models import TicketHistory, db, Ticket, Project, WorkflowStatus
+from SMART_Service_Desk.app.routes.utils import log_exceptions
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 #########################ticket##############################

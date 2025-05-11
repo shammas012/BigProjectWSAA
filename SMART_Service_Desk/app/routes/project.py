@@ -7,8 +7,8 @@
 
 
 from flask import Blueprint, current_app, jsonify, request
-from app.routes.utils import log_exceptions
-from app.models import db, Project
+from SMART_Service_Desk.app.routes.utils import log_exceptions
+from SMART_Service_Desk.app.models import db, Project
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 

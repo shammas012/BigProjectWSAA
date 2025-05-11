@@ -7,8 +7,8 @@
 
 
 from flask import Blueprint, jsonify, request, current_app
-from app.routes.utils import log_exceptions
-from app.models import db, WorkflowStatus,WorkflowTransition
+from SMART_Service_Desk.app.routes.utils import log_exceptions
+from SMART_Service_Desk.app.models import db, WorkflowStatus,WorkflowTransition
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
