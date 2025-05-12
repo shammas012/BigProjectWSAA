@@ -5,7 +5,7 @@ A web-based ticketing and workflow management system built with Flask, designed 
 **Demo**
 Application URL: https://shammas012.pythonanywhere.com/
 
-(**using free version of pythonanywhere and sometimes throwing internal server error, if this happens kindly refresh the page**)
+(**using free version of pythonanywhere and sometimes throwing internal server error, if this happens kindly refresh the page. If the issue persists kindly reach out on 0892114352. I will try to attach any screenshots as well if the time allows**)
 
 **Admin Credentials:**
 
