@@ -13,7 +13,7 @@ Username: AndrewB
 
 Password: Admin
 
-**Note:** Please use above credentails with admin rights (Admin role) to access the application. Customers with Customer and Agent roles dont have access to User Access Management.
+**Note:** Please use above credentails with admin rights (Admin role) to access the application. Users with Customer and Agent roles dont have access to User Access Management.
 
 **Table of Contents**
 
