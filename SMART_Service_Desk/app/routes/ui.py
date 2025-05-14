@@ -37,7 +37,18 @@ def view_tickets():
 def ticket_detail(key):
     ticket   = Ticket.query.filter_by(key=key).first_or_404()
     users    = User.query.order_by(User.fullname).all()
-    statuses = WorkflowStatus.query.order_by(WorkflowStatus.description).all()
+    currentStatus = WorkflowStatus.query.get(ticket.statusId)
+    currentStatusDesc= currentStatus.description if currentStatus else None
+
+    # workflow transitions
+    transitions = {
+        "Open": ["In Progress", "Completed", "Cancelled"],
+        "In Progress": ["Waiting for Customer", "Pending Tech Change"],
+        "Waiting for Customer": ["Waiting for Support"],
+        "Pending Tech Change": ["In Progress"],
+        "Waiting for Support": ["In Progress"]
+    }
+
     comments = (TicketComment.query
                         .filter_by(ticketKey=key)
                         .order_by(TicketComment.timestamp.desc())

@@ -1,0 +1,8 @@
+2025-05-12 17:14:30,467 INFO: Login successful for user: shammasm [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART_SD/BigProjectWSAA/SMART_Service_Desk/app/routes/auth.py:47]
+2025-05-12 17:15:07,450 INFO: Created ticket ASD-5 in project Applications Service Desk [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART_SD/BigProjectWSAA/SMART_Service_Desk/app/routes/tickets.py:67]
+2025-05-12 18:08:26,567 ERROR: Exception in createTicket: Signature has expired [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART_SD/BigProjectWSAA/SMART_Service_Desk/app/routes/utils.py:17]
+2025-05-12 18:08:30,218 ERROR: Exception in createTicket: Signature has expired [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART_SD/BigProjectWSAA/SMART_Service_Desk/app/routes/utils.py:17]
+2025-05-12 18:08:34,824 ERROR: Exception in createTicket: Signature has expired [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART_SD/BigProjectWSAA/SMART_Service_Desk/app/routes/utils.py:17]
+2025-05-12 18:08:39,735 ERROR: Exception in createTicket: Signature has expired [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART_SD/BigProjectWSAA/SMART_Service_Desk/app/routes/utils.py:17]
+2025-05-12 18:08:43,522 INFO: Login successful for user: shammasm [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART_SD/BigProjectWSAA/SMART_Service_Desk/app/routes/auth.py:47]
+2025-05-12 18:08:59,058 INFO: Created ticket ASD-6 in project Applications Service Desk [in /Users/mohamedshammasmohamedalimanaf/Documents/SMART_SD/BigProjectWSAA/SMART_Service_Desk/app/routes/tickets.py:67]

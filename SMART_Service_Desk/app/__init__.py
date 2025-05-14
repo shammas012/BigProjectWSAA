@@ -8,12 +8,12 @@
 
 from datetime import datetime
 from logging.handlers import TimedRotatingFileHandler
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import os, logging
 from flask_migrate import Migrate
 
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager   
 from dotenv import load_dotenv
 
 from SMART_Service_Desk.config import Config
@@ -90,5 +90,5 @@ def create_app():
     #move the below routing later to a common routes file..
     @app.route('/')
     def index():
-        return "Smart Service Desk is live!"
+        return redirect(url_for('ui.view_tickets'))
     return app

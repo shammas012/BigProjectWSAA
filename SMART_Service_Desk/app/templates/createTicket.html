@@ -93,7 +93,7 @@ document.getElementById('createTicketForm').addEventListener('submit', function(
   .then(data => {
     console.log("Ticket creation response:", data);
     if (data.key) {
-        window.location.href = `/ticketDetails/${data.key}`;
+      window.location.href = `/tickets/${data.key}`;
     } else {
         document.getElementById('statusMessage').textContent = data.error || 'Ticket creation failed.';
     }
